@@ -451,38 +451,12 @@ span.edit-username-left {
 table.results .bg-danger .glyphicon {
     opacity:0;
 
-    -moz-animation-name: hideNoIcon;
-    -moz-animation-iteration-count: 1;
-    -moz-animation-timing-function: ease-in;
-    -moz-animation-duration: 2s;
-
-    -webkit-animation-name: hideNoIcon;
-    -webkit-animation-iteration-count: 1;
-    -webkit-animation-timing-function: ease-in;
-    -webkit-animation-duration: 2s;
-
     animation-name: hideNoIcon;
     animation-iteration-count: 1;
     animation-timing-function: ease-in;
     animation-duration: 2s;
 }
 
-@-moz-keyframes hideNoIcon {
-    0% {
-        opacity:1;
-    }
-    100% {
-        opacity:0;
-    }
-}
-@-webkit-keyframes hideNoIcon {
-    0% {
-        opacity:1;
-    }
-    100% {
-        opacity:0;
-    }
-}
 @keyframes hideNoIcon {
     0% {
         opacity:1;
