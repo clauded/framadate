@@ -77,7 +77,7 @@
         submitChoicesAvalaible();
     });
 
-    $(document).on('keyup, change', '.choice-field input', function () {
+    $(document).on('keyup change', '.choice-field input', function () {
         submitChoicesAvalaible();
     });
     submitChoicesAvalaible();

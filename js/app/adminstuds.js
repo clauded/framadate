@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    wrapper = new MDEWrapper($('.js-desc textarea')[0], $('#rich-editor-button'), $('#simple-editor-button'));
+    var wrapper = new MDEWrapper($('.js-desc textarea')[0], $('#rich-editor-button'), $('#simple-editor-button'));
     var firstOpening = true;
     $('[data-toggle="popover"]').popover();
 

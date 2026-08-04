@@ -141,7 +141,7 @@ $(document).ready(function () {
      * Disable view public results option when there's a password and the poll is not hidden
      */
     $('#password').on('keyup change', function () {
-        if($('#password').val() && !($('#hidden').attr('checked'))){
+        if($('#password').val() && !($('#hidden').prop('checked'))){
             $('#resultsPubliclyVisible').removeAttr('disabled');
         } else {
             $('#resultsPubliclyVisible').attr('disabled','disabled');

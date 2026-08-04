@@ -91,7 +91,7 @@ $(document).ready(function () {
 
             }
 
-            $(this).val(inputDate.toLocaleFormat("%d/%m/%Y"));
+            $(this).val(leftPad("" + inputDate.getDate(), "00") + '/' + leftPad("" + (inputDate.getMonth() + 1), "00") + '/' + inputDate.getFullYear());
         }
     });
 

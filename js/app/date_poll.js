@@ -120,14 +120,6 @@ $(document).ready(function () {
         updateButtonState();
     }
 
-    function manageRemoveadayAndCopyhoursButtons() {
-        var nb_days = $selected_days.find('fieldset').length;
-        $('#day' + (getLastDayNumber() - 1)).focus();
-        if (nb_days == 1) {
-            $removeaday_and_copyhours.addClass('disabled');
-        }
-    }
-
     var useFirstEmptyDateField = function (dateStr) {
         var used = false;
         $selected_days.find('fieldset legend input').each(function () {
