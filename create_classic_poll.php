@@ -17,6 +17,7 @@
  * Auteurs de Framadate/OpenSondage : Framasoft (https://github.com/framasoft)
  */
 use Framadate\Choice;
+use Framadate\Form;
 use Framadate\Services\InputService;
 use Framadate\Services\LogService;
 use Framadate\Services\MailService;
@@ -42,7 +43,7 @@ if (is_file('bandeaux_local.php')) {
     include_once('bandeaux.php');
 }
 
-$form = unserialize($_SESSION['form']);
+$form = unserialize($_SESSION['form'], ['allowed_classes' => [Form::class, Choice::class]]);
 
 // Step 1/4 : error if $_SESSION from info_sondage are not valid
 if (empty($form->title) || empty($form->admin_name) || ($config['use_smtp'] && empty($form->admin_mail))) {

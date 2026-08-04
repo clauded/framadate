@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Framadate\Services;
 
 use Framadate\Exception\MomentAlreadyExistsException;
@@ -291,7 +292,7 @@ class AdminPollService {
         $result->insert = 0;
 
         // Sort slots before searching where to insert
-        $this->pollService->sortSlorts($slots);
+        $this->pollService->sortSlots($slots);
 
         // Search where to insert new column
         foreach ($slots as $k=>$slot) {

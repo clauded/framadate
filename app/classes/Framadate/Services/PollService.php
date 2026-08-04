@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This software is governed by the CeCILL-B license. If a copy of this license
  * is not distributed with this file, you can obtain one at
@@ -76,7 +77,7 @@ class PollService {
     public function allSlotsByPoll(stdClass $poll) {
         $slots = $this->slotRepository->listByPollId($poll->id);
         if ($poll->format === 'D') {
-            $this->sortSlorts($slots);
+            $this->sortSlots($slots);
         }
         return $slots;
     }
@@ -245,7 +246,7 @@ class PollService {
     /**
      * @return mixed
      */
-    public function sortSlorts(array &$slots): array {
+    public function sortSlots(array &$slots): array {
         uasort($slots, static function ($a, $b) {
             if ($a->title === $b->title) {
                 return 0;

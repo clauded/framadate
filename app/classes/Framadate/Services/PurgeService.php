@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Framadate\Services;
 use Framadate\FramaDB;
 use Framadate\Repositories\RepositoryFactory;

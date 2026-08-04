@@ -1,0 +1,26 @@
+# Dependencies (install via `composer install`; keep composer.lock committed)
+/vendor/
+
+# Runtime configuration (contains DB credentials / secrets)
+/app/inc/config.php
+
+# Logs
+error_log
+admin/error_log
+admin/stdout.log
+*.log
+
+# Smarty compiled template cache
+/tpl_c/*
+!/tpl_c/.gitkeep
+
+# Local archives / packaging output — should be built, not committed
+/archive*.zip
+
+# Editor / OS cruft
+.DS_Store
+*.swp
+
+# Disabled / leftover debug scripts — should never exist in the tree
+phpinfo.php.disabled
+*.old

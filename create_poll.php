@@ -17,6 +17,7 @@
  * Auteurs de Framadate/OpenSondage : Framasoft (https://github.com/framasoft)
  */
 
+use Framadate\Choice;
 use Framadate\Form;
 use Framadate\Repositories\RepositoryFactory;
 use Framadate\Security\PasswordHasher;
@@ -35,7 +36,7 @@ $pollRepository = RepositoryFactory::pollRepository();
 
 /* PAGE */
 /* ---- */
-$form = isset($_SESSION['form']) ? unserialize($_SESSION['form']) : null;
+$form = isset($_SESSION['form']) ? unserialize($_SESSION['form'], ['allowed_classes' => [Form::class, Choice::class]]) : null;
 
 if ($form === null && !($form instanceof Form)) {
     $form = new Form();
@@ -119,9 +120,9 @@ if ($goToStep2) {
         }
     }
 
-	if ($use_ValueMax && $ValueMax === false) {
+    if ($use_ValueMax && $ValueMax === false) {
         $error_on_ValueMax = true;
-	}
+    }
 
     if ($name !== $_POST['name']) {
         $error_on_name = true;
@@ -209,7 +210,7 @@ $errors = [
         'aria' => '',
         'class' => ''
     ],
-	'ValueMax' => [
+    'ValueMax' => [
         'msg' => '',
         'aria' => '',
         'class' => ''
@@ -278,7 +279,7 @@ if (!empty($_POST[GO_TO_STEP_2])) {
         $errors['password_repeat']['class'] = ' has-error';
         $errors['password_repeat']['msg'] = __('Error', 'Passwords do not match');
     }
-	if ($error_on_ValueMax) {
+    if ($error_on_ValueMax) {
         $errors['ValueMax']['aria'] = 'aria-describeby="poll_ValueMax" ';
         $errors['ValueMax']['class'] = ' has-error';
         $errors['ValueMax']['msg'] = __('Error', 'Error on amount of voters limitation : value must be an integer greater than 0');

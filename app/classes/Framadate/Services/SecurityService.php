@@ -1,13 +1,11 @@
 <?php
+declare(strict_types=1);
 namespace Framadate\Services;
 
 use Framadate\Security\PasswordHasher;
 use Framadate\Security\Token;
 
 class SecurityService {
-    public function __construct() {
-    }
-
     /**
      * Get a CSRF token by name, or (re)create it.
      *
@@ -20,7 +18,7 @@ class SecurityService {
      * @param $tokan_name string The name of the CSRF token
      * @return string The token
      */
-    function getToken(string $tokan_name): string
+    public function getToken(string $tokan_name): string
     {
         if (!isset($_SESSION['tokens'])) {
             $_SESSION['tokens'] = [];
@@ -41,6 +39,10 @@ class SecurityService {
      */
     public function checkCsrf(string $tokan_name, string $csrf): bool
     {
+        if (!isset($_SESSION['tokens'][$tokan_name])) {
+            return false;
+        }
+
         $checked = $_SESSION['tokens'][$tokan_name]->getValue() === $csrf;
 
         if($checked) {
@@ -64,25 +66,28 @@ class SecurityService {
 
         $this->ensureSessionPollSecurityIsCreated();
 
-        $currentPassword = $_SESSION['poll_security'][$poll->id] ?? null;
-        if (!empty($currentPassword) && PasswordHasher::verify($currentPassword, $poll->password_hash)) {
+        if (!empty($_SESSION['poll_security'][$poll->id])) {
             return true;
         }
-            unset($_SESSION['poll_security'][$poll->id]);
-            return false;
+
+        return false;
     }
 
     /**
-     * Submit to the session a poll password
+     * Submit to the session a poll password.
+     *
+     * The password is verified immediately against the poll's stored hash;
+     * only a boolean "access granted" flag is kept in session, never the
+     * plaintext password itself.
      *
      * @param $poll \stdClass The poll which we seek access
      * @param $password string the password to compare
      */
     public function submitPollAccess($poll, string $password): void
     {
-        if (!empty($password)) {
+        if (!empty($password) && PasswordHasher::verify($password, $poll->password_hash)) {
             $this->ensureSessionPollSecurityIsCreated();
-            $_SESSION['poll_security'][$poll->id] = $password;
+            $_SESSION['poll_security'][$poll->id] = true;
         }
     }
 

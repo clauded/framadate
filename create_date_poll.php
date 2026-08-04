@@ -17,6 +17,7 @@
  * Auteurs de Framadate/OpenSondage : Framasoft (https://github.com/framasoft https://framagit.org/framasoft/framadate/)
  */
 use Framadate\Choice;
+use Framadate\Form;
 use Framadate\Services\InputService;
 use Framadate\Services\LogService;
 use Framadate\Services\MailService;
@@ -40,7 +41,7 @@ if (is_readable('bandeaux_local.php')) {
     include_once('bandeaux_local.php');
 }
 
-$form = unserialize($_SESSION['form']);
+$form = unserialize($_SESSION['form'], ['allowed_classes' => [Form::class, Choice::class]]);
 
 // The poll format is DATE if we are in this file
 if (!isset($form->format)) {

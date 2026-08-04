@@ -85,9 +85,9 @@ if ($poll) {
 $messagePollCreated = $sessionService->get("Framadate", "messagePollCreated", FALSE);
 
 if ($messagePollCreated) {
-	$sessionService->remove("Framadate", "messagePollCreated");
+    $sessionService->remove("Framadate", "messagePollCreated");
 
-	$message = new Message('success', __('adminstuds', 'The poll is created.'));
+    $message = new Message('success', __('adminstuds', 'The poll is created.'));
 }
 
 // -------------------------------
@@ -178,7 +178,7 @@ if (isset($_POST['update_poll_info'])) {
         $hidden = isset($_POST['hidden']) && $inputService->filterBoolean($_POST['hidden']);
         if ($hidden !== $poll->hidden) {
             $poll->hidden = $hidden;
-	    $poll->results_publicly_visible = false;
+        $poll->results_publicly_visible = false;
             $updated = true;
         }
     } elseif ($field === 'removePassword') {
