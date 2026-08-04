@@ -1,0 +1,97 @@
+{
+    "name": "framasoft/framadate",
+    "description": "Application to facilitate the schedule of events or classic polls",
+    "homepage": "https://framadate.org/",
+    "keywords": [
+        "poll",
+        "framadate"
+    ],
+    "version": "0.9.0",
+    "license": "CECILL-B",
+    "type": "project",
+    "support": {
+        "issues": "https://framagit.org/framasoft/framadate/issues"
+    },
+    "authors": [
+        {
+            "name": "Thomas CITHAREL",
+            "email": "tcit@tcit.fr",
+            "role": "Maintainer"
+        },
+        {
+            "name": "JosephK",
+            "email": "joseph@framasoft.org",
+            "role": "Maintainer"
+        },
+        {
+            "name": "Olivier PEREZ",
+            "email": "olivier@olivierperez.fr",
+            "role": "Former maintainer"
+        },
+        {
+            "name": "Antonin MURTIN",
+            "email": "antonin.murtin@gmail.com",
+            "role": "Former developper"
+        },
+        {
+            "name": "Simon LEBLANC",
+            "role": "Former developper",
+            "email": "contact@leblanc-simon.eu"
+        },
+        {
+            "name": "Pierre-Yves GOSSET",
+            "role": "Former developper",
+            "email": "pyg@framasoft.org"
+        },
+        {
+            "name": "Guilhem BORGHESI",
+            "role": "Studs developper",
+            "email": "borghesi@unistra.fr"
+        },
+        {
+            "name": "Raphaël DROZ",
+            "role": "Studs developper",
+            "email": "raphael.droz@gmail.com"
+        }
+    ],
+    "scripts": {
+        "cs:check": "php-cs-fixer fix --dry-run --diff",
+        "cs:fix": "php-cs-fixer fix",
+        "lint": "find . -name \\*.php -not -path './vendor/*' -not -path './build/*' -not -path './tests/integration/vendor/*' -print0 | xargs -0 -n1 php -l"
+    },
+    "require": {
+        "php": ">=7.3.0",
+        "ext-pdo": "*",
+        "ext-json": "*",
+        "ext-intl": "*",
+        "smarty/smarty": "^4.0",
+        "o80/i18n": "dev-develop",
+        "phpmailer/phpmailer": "~6.2",
+        "ircmaxell/password-compat": "dev-master",
+        "roave/security-advisories": "dev-master",
+        "erusev/parsedown": "^1.7",
+        "egulias/email-validator": "^3.1",
+        "sabre/vobject": "~4.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9",
+        "friendsofphp/php-cs-fixer": "^3.2",
+        "vimeo/psalm": "^4.15"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://framagit.org/framasoft/framadate/o80-i18n"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Framadate\\": "app/classes/Framadate/"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "7.3.0"
+        }
+    }
+}
