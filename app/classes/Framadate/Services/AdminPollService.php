@@ -13,19 +13,12 @@ use Framadate\Utils;
  * @package Framadate\Services
  */
 class AdminPollService {
-    private $connect;
-    private $pollService;
-    private $logService;
-
     private $pollRepository;
     private $slotRepository;
     private $voteRepository;
     private $commentRepository;
 
-    public function __construct(FramaDB $connect, PollService $pollService, LogService $logService) {
-        $this->connect = $connect;
-        $this->pollService = $pollService;
-        $this->logService = $logService;
+    public function __construct(private FramaDB $connect, private PollService $pollService, private LogService $logService) {
         $this->pollRepository = RepositoryFactory::pollRepository();
         $this->slotRepository = RepositoryFactory::slotRepository();
         $this->voteRepository = RepositoryFactory::voteRepository();

@@ -6,9 +6,6 @@ use Framadate\Utils;
 use PDO;
 
 class Increase_pollId_size implements Migration {
-    public function __construct() {
-    }
-
     /**
      * This method should describe in english what is the purpose of the migration class.
      *

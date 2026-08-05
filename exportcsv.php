@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This software is governed by the CeCILL-B license. If a copy of this license
  * is not distributed with this file, you can obtain one at
@@ -103,19 +104,12 @@ foreach ($votes as $vote) {
     echo Utils::csvEscape($vote->name) . ',';
     $choices = str_split($vote->choices);
     foreach ($choices as $choice) {
-        switch ($choice) {
-            case 0:
-                $text = __('Generic', 'No');
-                break;
-            case 1:
-                $text = __('Generic', 'Ifneedbe');
-                break;
-            case 2:
-                $text = __('Generic', 'Yes');
-                break;
-            default:
-                $text = __('Generic', 'Unknown');
-        }
+        $text = match ((int) $choice) {
+            0 => __('Generic', 'No'),
+            1 => __('Generic', 'Ifneedbe'),
+            2 => __('Generic', 'Yes'),
+            default => __('Generic', 'Unknown'),
+        };
         echo Utils::csvEscape($text);
         echo ',';
     }

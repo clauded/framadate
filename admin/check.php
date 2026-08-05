@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This software is governed by the CeCILL-B license. If a copy of this license
  * is not distributed with this file, you can obtain one at
@@ -187,7 +188,7 @@ usort($messages, 'compareCheckMessage');
                 <div class="input-group input-group-sm pull-right col-xs-12 col-sm-2">
                     <select name="lang" class="form-control" title="<?=__('Language selector', 'Select the language')?>" >
                         <?php foreach ($ALLOWED_LANGUAGES as $lang_key => $language) { ?>
-                        <option lang="fr" <?php if (strpos($lang_key, $locale) === 0) { echo 'selected';} ?> value="<?=substr($lang_key, 0, 2)?>"><?=$language?></option>
+                        <option lang="fr" <?php if (str_starts_with($lang_key, $locale)) { echo 'selected';} ?> value="<?=substr($lang_key, 0, 2)?>"><?=$language?></option>
                         <?php } ?>
                     </select>
                 <span class="input-group-btn">

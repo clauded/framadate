@@ -29,9 +29,6 @@ use PDO;
  * @version 1.0
  */
 class Alter_Comment_table_for_name_length implements Migration {
-    public function __construct() {
-    }
-
     /**
      * This method should describe in english what is the purpose of the migration class.
      *

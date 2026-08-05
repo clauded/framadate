@@ -44,8 +44,6 @@ class InstallService {
         'migrationTable' => 'framadate_migration'
     ];
 
-    public function __construct() {}
-
     public function updateFields($data): void
     {
         foreach ($data as $field => $value) {

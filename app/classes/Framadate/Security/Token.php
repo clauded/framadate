@@ -6,11 +6,9 @@ class Token {
     public const DEFAULT_LENGTH = 64;
     private $time;
     private $value;
-    private $length;
     private static $codeAlphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
 
-    public function __construct($length = self::DEFAULT_LENGTH) {
-        $this->length = $length;
+    public function __construct(private int $length = self::DEFAULT_LENGTH) {
         $this->time = time() + TOKEN_TIME;
         $this->value = $this->generate();
     }

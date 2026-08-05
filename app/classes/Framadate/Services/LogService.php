@@ -8,9 +8,6 @@ namespace Framadate\Services;
  * @package Framadate\Services
  */
 class LogService {
-    public function __construct() {
-    }
-
     /**
      * Log a message to the log file.
      *

@@ -29,9 +29,6 @@ use PDO;
  * @version 0.9
  */
 class AddColumn_receiveNewComments_For_0_9 implements Migration {
-    public function __construct() {
-    }
-
     /**
      * This method should describe in english what is the purpose of the migration class.
      *

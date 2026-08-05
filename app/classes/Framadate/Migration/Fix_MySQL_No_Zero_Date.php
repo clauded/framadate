@@ -29,9 +29,6 @@ use PDO;
  * @version 1.1
  */
 class Fix_MySQL_No_Zero_Date implements Migration {
-    public function __construct() {
-    }
-
     /**
      * This method should describe in english what is the purpose of the migration class.
      *

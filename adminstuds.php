@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This software is governed by the CeCILL-B license. If a copy of this license
  * is not distributed with this file, you can obtain one at
@@ -119,27 +120,16 @@ if (isset($_POST['update_poll_info'])) {
         }
     } elseif ($field === 'rules') {
         $rules = (int) strip_tags($_POST['rules']);
-        switch ($rules) {
-            case 0:
-                $poll->active = false;
-                $poll->editable = Editable::NOT_EDITABLE;
-                $updated = true;
-                break;
-            case 1:
-                $poll->active = true;
-                $poll->editable = Editable::NOT_EDITABLE;
-                $updated = true;
-                break;
-            case 2:
-                $poll->active = true;
-                $poll->editable = Editable::EDITABLE_BY_ALL;
-                $updated = true;
-                break;
-            case 3:
-                $poll->active = true;
-                $poll->editable = Editable::EDITABLE_BY_OWN;
-                $updated = true;
-                break;
+        $ruleSettings = match ($rules) {
+            0 => [false, Editable::NOT_EDITABLE],
+            1 => [true, Editable::NOT_EDITABLE],
+            2 => [true, Editable::EDITABLE_BY_ALL],
+            3 => [true, Editable::EDITABLE_BY_OWN],
+            default => null,
+        };
+        if ($ruleSettings !== null) {
+            [$poll->active, $poll->editable] = $ruleSettings;
+            $updated = true;
         }
     } elseif ($field === 'expiration_date') {
         $givenExpirationDate = $inputService->parseDate($_POST['expiration_date']);

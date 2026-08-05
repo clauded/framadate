@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This software is governed by the CeCILL-B license. If a copy of this license
  * is not distributed with this file, you can obtain one at

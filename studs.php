@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This software is governed by the CeCILL-B license. If a copy of this license
  * is not distributed with this file, you can obtain one at
@@ -22,6 +23,7 @@ use Framadate\Exception\ConcurrentEditionException;
 use Framadate\Exception\ConcurrentVoteException;
 use Framadate\Message;
 use Framadate\Security\Token;
+use Framadate\Services\AdminPollService;
 use Framadate\Services\ICalService;
 use Framadate\Services\InputService;
 use Framadate\Services\LogService;
@@ -31,7 +33,6 @@ use Framadate\Services\PollService;
 use Framadate\Services\SecurityService;
 use Framadate\Services\SessionService;
 use Framadate\Utils;
-use Framadate\Services\AdminPollService;
 
 include_once __DIR__ . '/app/inc/init.php';
 
@@ -209,7 +210,6 @@ if ($accessGranted) {
             $message = new Message('danger', __('Error', 'Failed to delete the vote!'));
         }
     }
-
 }
 
 // Functions

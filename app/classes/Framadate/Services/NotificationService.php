@@ -17,10 +17,7 @@ class NotificationService {
     public const UPDATE_POLL = 10;
     public const DELETED_POLL = 11;
 
-    private $mailService;
-
-    public function __construct(MailService $mailService) {
-        $this->mailService = $mailService;
+    public function __construct(private MailService $mailService) {
     }
 
     /**
@@ -55,29 +52,14 @@ class NotificationService {
             $urlSondage = Utils::getUrlSondage($poll->admin_id, true);
             $link = '<a href="' . $urlSondage . '">' . $urlSondage . '</a>' . "\n\n";
 
-            switch ($type) {
-                case self::UPDATE_VOTE:
-                    $message .= $name . ' ';
-                    $message .= __('Mail', "updated a vote.\nYou can find your poll at the link") . " :\n\n";
-                    $message .= $link;
-                    break;
-                case self::ADD_VOTE:
-                    $message .= $name . ' ';
-                    $message .= __('Mail', "filled a vote.\nYou can find your poll at the link") . " :\n\n";
-                    $message .= $link;
-                    break;
-                case self::ADD_COMMENT:
-                    $message .= $name . ' ';
-                    $message .= __('Mail', "wrote a comment.\nYou can find your poll at the link") . " :\n\n";
-                    $message .= $link;
-                    break;
-                case self::UPDATE_POLL:
-                    $message = __f('Mail', 'Someone just change your poll available at the following link %s.', Utils::getUrlSondage($poll->admin_id, true)) . "\n\n";
-                    break;
-                case self::DELETED_POLL:
-                    $message = __f('Mail', 'Someone just delete your poll %s.', Utils::htmlEscape($poll->title)) . "\n\n";
-                    break;
-            }
+            $message = match ($type) {
+                self::UPDATE_VOTE => $name . ' ' . __('Mail', "updated a vote.\nYou can find your poll at the link") . " :\n\n" . $link,
+                self::ADD_VOTE => $name . ' ' . __('Mail', "filled a vote.\nYou can find your poll at the link") . " :\n\n" . $link,
+                self::ADD_COMMENT => $name . ' ' . __('Mail', "wrote a comment.\nYou can find your poll at the link") . " :\n\n" . $link,
+                self::UPDATE_POLL => __f('Mail', 'Someone just change your poll available at the following link %s.', Utils::getUrlSondage($poll->admin_id, true)) . "\n\n",
+                self::DELETED_POLL => __f('Mail', 'Someone just delete your poll %s.', Utils::htmlEscape($poll->title)) . "\n\n",
+                default => $message,
+            };
 
             $messageTypeKey = $type . '-' . $poll->id;
             if ($poll->admin_mail) {

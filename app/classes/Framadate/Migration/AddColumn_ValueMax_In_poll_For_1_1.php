@@ -29,9 +29,6 @@ use PDO;
  * @version 0.9
  */
 class AddColumn_ValueMax_In_poll_For_1_1 implements Migration {
-    public function __construct() {
-    }
-
     /**
      * This method should describe in english what is the purpose of the migration class.
      *

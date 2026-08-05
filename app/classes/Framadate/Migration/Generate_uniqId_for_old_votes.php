@@ -30,9 +30,6 @@ use PDO;
  * @version 0.9
  */
 class Generate_uniqId_for_old_votes implements Migration {
-    public function __construct() {
-    }
-
     public function description(): string {
         return 'Generate "uniqId" in "vote" table for all legacy votes';
     }

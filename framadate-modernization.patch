@@ -1,0 +1,609 @@
+diff --git a/action/add_comment.php b/action/add_comment.php
+index 81c75db..1fe7085 100644
+--- a/action/add_comment.php
++++ b/action/add_comment.php
+@@ -1,4 +1,5 @@
+ <?php
++declare(strict_types=1);
+ /**
+  * This software is governed by the CeCILL-B license. If a copy of this license
+  * is not distributed with this file, you can obtain one at
+diff --git a/action/send_edit_link_by_email_action.php b/action/send_edit_link_by_email_action.php
+index 9f6cb23..9dce910 100644
+--- a/action/send_edit_link_by_email_action.php
++++ b/action/send_edit_link_by_email_action.php
+@@ -1,4 +1,5 @@
+ <?php
++declare(strict_types=1);
+ /**
+  * This software is governed by the CeCILL-B license. If a copy of this license
+  * is not distributed with this file, you can obtain one at
+diff --git a/admin/check.php b/admin/check.php
+index dca7b5f..5ae137f 100644
+--- a/admin/check.php
++++ b/admin/check.php
+@@ -1,4 +1,5 @@
+ <?php
++declare(strict_types=1);
+ /**
+  * This software is governed by the CeCILL-B license. If a copy of this license
+  * is not distributed with this file, you can obtain one at
+@@ -187,7 +188,7 @@ usort($messages, 'compareCheckMessage');
+                 <div class="input-group input-group-sm pull-right col-xs-12 col-sm-2">
+                     <select name="lang" class="form-control" title="<?=__('Language selector', 'Select the language')?>" >
+                         <?php foreach ($ALLOWED_LANGUAGES as $lang_key => $language) { ?>
+-                        <option lang="fr" <?php if (strpos($lang_key, $locale) === 0) { echo 'selected';} ?> value="<?=substr($lang_key, 0, 2)?>"><?=$language?></option>
++                        <option lang="fr" <?php if (str_starts_with($lang_key, $locale)) { echo 'selected';} ?> value="<?=substr($lang_key, 0, 2)?>"><?=$language?></option>
+                         <?php } ?>
+                     </select>
+                 <span class="input-group-btn">
+diff --git a/admin/index.php b/admin/index.php
+index a669eff..f50cc70 100644
+--- a/admin/index.php
++++ b/admin/index.php
+@@ -1,4 +1,5 @@
+ <?php
++declare(strict_types=1);
+ /**
+  * This software is governed by the CeCILL-B license. If a copy of this license
+  * is not distributed with this file, you can obtain one at
+diff --git a/admin/install.php b/admin/install.php
+index edb5fdb..07a4fdc 100644
+--- a/admin/install.php
++++ b/admin/install.php
+@@ -1,4 +1,5 @@
+ <?php
++declare(strict_types=1);
+ /**
+  * This software is governed by the CeCILL-B license. If a copy of this license
+  * is not distributed with this file, you can obtain one at
+diff --git a/admin/logs.php b/admin/logs.php
+index 57dd9b7..045d7d3 100644
+--- a/admin/logs.php
++++ b/admin/logs.php
+@@ -1,4 +1,5 @@
+ <?php
++declare(strict_types=1);
+ /**
+  * This software is governed by the CeCILL-B license. If a copy of this license
+  * is not distributed with this file, you can obtain one at
+diff --git a/admin/migration.php b/admin/migration.php
+index 8a62396..f2d86d9 100644
+--- a/admin/migration.php
++++ b/admin/migration.php
+@@ -1,4 +1,5 @@
+ <?php
++declare(strict_types=1);
+ /**
+  * This software is governed by the CeCILL-B license. If a copy of this license
+  * is not distributed with this file, you can obtain one at
+diff --git a/admin/polls.php b/admin/polls.php
+index 8b93547..2298fcf 100644
+--- a/admin/polls.php
++++ b/admin/polls.php
+@@ -1,4 +1,5 @@
+ <?php
++declare(strict_types=1);
+ /**
+  * This software is governed by the CeCILL-B license. If a copy of this license
+  * is not distributed with this file, you can obtain one at
+diff --git a/admin/purge.php b/admin/purge.php
+index 6c95e6f..5ce9546 100644
+--- a/admin/purge.php
++++ b/admin/purge.php
+@@ -1,4 +1,5 @@
+ <?php
++declare(strict_types=1);
+ /**
+  * This software is governed by the CeCILL-B license. If a copy of this license
+  * is not distributed with this file, you can obtain one at
+diff --git a/adminstuds.php b/adminstuds.php
+index fb65a0c..6abef7b 100644
+--- a/adminstuds.php
++++ b/adminstuds.php
+@@ -1,4 +1,5 @@
+ <?php
++declare(strict_types=1);
+ /**
+  * This software is governed by the CeCILL-B license. If a copy of this license
+  * is not distributed with this file, you can obtain one at
+@@ -119,27 +120,16 @@ if (isset($_POST['update_poll_info'])) {
+         }
+     } elseif ($field === 'rules') {
+         $rules = (int) strip_tags($_POST['rules']);
+-        switch ($rules) {
+-            case 0:
+-                $poll->active = false;
+-                $poll->editable = Editable::NOT_EDITABLE;
+-                $updated = true;
+-                break;
+-            case 1:
+-                $poll->active = true;
+-                $poll->editable = Editable::NOT_EDITABLE;
+-                $updated = true;
+-                break;
+-            case 2:
+-                $poll->active = true;
+-                $poll->editable = Editable::EDITABLE_BY_ALL;
+-                $updated = true;
+-                break;
+-            case 3:
+-                $poll->active = true;
+-                $poll->editable = Editable::EDITABLE_BY_OWN;
+-                $updated = true;
+-                break;
++        $ruleSettings = match ($rules) {
++            0 => [false, Editable::NOT_EDITABLE],
++            1 => [true, Editable::NOT_EDITABLE],
++            2 => [true, Editable::EDITABLE_BY_ALL],
++            3 => [true, Editable::EDITABLE_BY_OWN],
++            default => null,
++        };
++        if ($ruleSettings !== null) {
++            [$poll->active, $poll->editable] = $ruleSettings;
++            $updated = true;
+         }
+     } elseif ($field === 'expiration_date') {
+         $givenExpirationDate = $inputService->parseDate($_POST['expiration_date']);
+diff --git a/app/classes/Framadate/Migration/AddColumn_ValueMax_In_poll_For_1_1.php b/app/classes/Framadate/Migration/AddColumn_ValueMax_In_poll_For_1_1.php
+index 79b3961..d55a942 100644
+--- a/app/classes/Framadate/Migration/AddColumn_ValueMax_In_poll_For_1_1.php
++++ b/app/classes/Framadate/Migration/AddColumn_ValueMax_In_poll_For_1_1.php
+@@ -29,9 +29,6 @@ use PDO;
+  * @version 0.9
+  */
+ class AddColumn_ValueMax_In_poll_For_1_1 implements Migration {
+-    public function __construct() {
+-    }
+-
+     /**
+      * This method should describe in english what is the purpose of the migration class.
+      *
+diff --git a/app/classes/Framadate/Migration/AddColumn_hidden_In_poll_For_0_9.php b/app/classes/Framadate/Migration/AddColumn_hidden_In_poll_For_0_9.php
+index 6a0d7ba..2a75663 100644
+--- a/app/classes/Framadate/Migration/AddColumn_hidden_In_poll_For_0_9.php
++++ b/app/classes/Framadate/Migration/AddColumn_hidden_In_poll_For_0_9.php
+@@ -29,9 +29,6 @@ use PDO;
+  * @version 0.9
+  */
+ class AddColumn_hidden_In_poll_For_0_9 implements Migration {
+-    public function __construct() {
+-    }
+-
+     /**
+      * This method should describe in english what is the purpose of the migration class.
+      *
+diff --git a/app/classes/Framadate/Migration/AddColumn_receiveNewComments_For_0_9.php b/app/classes/Framadate/Migration/AddColumn_receiveNewComments_For_0_9.php
+index 18467ea..99915af 100644
+--- a/app/classes/Framadate/Migration/AddColumn_receiveNewComments_For_0_9.php
++++ b/app/classes/Framadate/Migration/AddColumn_receiveNewComments_For_0_9.php
+@@ -29,9 +29,6 @@ use PDO;
+  * @version 0.9
+  */
+ class AddColumn_receiveNewComments_For_0_9 implements Migration {
+-    public function __construct() {
+-    }
+-
+     /**
+      * This method should describe in english what is the purpose of the migration class.
+      *
+diff --git a/app/classes/Framadate/Migration/AddColumn_uniqId_In_vote_For_0_9.php b/app/classes/Framadate/Migration/AddColumn_uniqId_In_vote_For_0_9.php
+index 9ca16ed..b7e9996 100644
+--- a/app/classes/Framadate/Migration/AddColumn_uniqId_In_vote_For_0_9.php
++++ b/app/classes/Framadate/Migration/AddColumn_uniqId_In_vote_For_0_9.php
+@@ -29,9 +29,6 @@ use PDO;
+  * @version 0.9
+  */
+ class AddColumn_uniqId_In_vote_For_0_9 implements Migration {
+-    public function __construct() {
+-    }
+-
+     /**
+      * This method should describe in english what is the purpose of the migration class.
+      *
+diff --git a/app/classes/Framadate/Migration/AddColumns_password_hash_And_results_publicly_visible_In_poll_For_0_9.php b/app/classes/Framadate/Migration/AddColumns_password_hash_And_results_publicly_visible_In_poll_For_0_9.php
+index 97427b9..cc1d433 100644
+--- a/app/classes/Framadate/Migration/AddColumns_password_hash_And_results_publicly_visible_In_poll_For_0_9.php
++++ b/app/classes/Framadate/Migration/AddColumns_password_hash_And_results_publicly_visible_In_poll_For_0_9.php
+@@ -29,9 +29,6 @@ use PDO;
+  * @version 0.9
+  */
+ class AddColumns_password_hash_And_results_publicly_visible_In_poll_For_0_9 implements Migration {
+-    public function __construct() {
+-    }
+-
+     /**
+      * This method should describe in english what is the purpose of the migration class.
+      *
+diff --git a/app/classes/Framadate/Migration/Alter_Comment_table_adding_date.php b/app/classes/Framadate/Migration/Alter_Comment_table_adding_date.php
+index 219ce99..eebf5ee 100644
+--- a/app/classes/Framadate/Migration/Alter_Comment_table_adding_date.php
++++ b/app/classes/Framadate/Migration/Alter_Comment_table_adding_date.php
+@@ -29,9 +29,6 @@ use PDO;
+  * @version 1.0
+  */
+ class Alter_Comment_table_adding_date implements Migration {
+-    public function __construct() {
+-    }
+-
+     /**
+      * This method should describe in english what is the purpose of the migration class.
+      *
+diff --git a/app/classes/Framadate/Migration/Alter_Comment_table_for_name_length.php b/app/classes/Framadate/Migration/Alter_Comment_table_for_name_length.php
+index af53d9a..1e73017 100644
+--- a/app/classes/Framadate/Migration/Alter_Comment_table_for_name_length.php
++++ b/app/classes/Framadate/Migration/Alter_Comment_table_for_name_length.php
+@@ -29,9 +29,6 @@ use PDO;
+  * @version 1.0
+  */
+ class Alter_Comment_table_for_name_length implements Migration {
+-    public function __construct() {
+-    }
+-
+     /**
+      * This method should describe in english what is the purpose of the migration class.
+      *
+diff --git a/app/classes/Framadate/Migration/Fix_MySQL_No_Zero_Date.php b/app/classes/Framadate/Migration/Fix_MySQL_No_Zero_Date.php
+index 2b2d948..b8ea185 100644
+--- a/app/classes/Framadate/Migration/Fix_MySQL_No_Zero_Date.php
++++ b/app/classes/Framadate/Migration/Fix_MySQL_No_Zero_Date.php
+@@ -29,9 +29,6 @@ use PDO;
+  * @version 1.1
+  */
+ class Fix_MySQL_No_Zero_Date implements Migration {
+-    public function __construct() {
+-    }
+-
+     /**
+      * This method should describe in english what is the purpose of the migration class.
+      *
+diff --git a/app/classes/Framadate/Migration/From_0_0_to_0_8_Migration.php b/app/classes/Framadate/Migration/From_0_0_to_0_8_Migration.php
+index 6347874..909d888 100644
+--- a/app/classes/Framadate/Migration/From_0_0_to_0_8_Migration.php
++++ b/app/classes/Framadate/Migration/From_0_0_to_0_8_Migration.php
+@@ -29,9 +29,6 @@ use PDO;
+  * @version 0.8
+  */
+ class From_0_0_to_0_8_Migration implements Migration {
+-    public function __construct() {
+-    }
+-
+     /**
+      * This method should describe in english what is the purpose of the migration class.
+      *
+diff --git a/app/classes/Framadate/Migration/From_0_8_to_0_9_Migration.php b/app/classes/Framadate/Migration/From_0_8_to_0_9_Migration.php
+index a2293ab..de066a2 100644
+--- a/app/classes/Framadate/Migration/From_0_8_to_0_9_Migration.php
++++ b/app/classes/Framadate/Migration/From_0_8_to_0_9_Migration.php
+@@ -29,9 +29,6 @@ use PDO;
+  * @version 0.9
+  */
+ class From_0_8_to_0_9_Migration implements Migration {
+-    public function __construct() {
+-    }
+-
+     /**
+      * This method should describe in english what is the purpose of the migration class.
+      *
+diff --git a/app/classes/Framadate/Migration/Generate_uniqId_for_old_votes.php b/app/classes/Framadate/Migration/Generate_uniqId_for_old_votes.php
+index a172d29..72b37a3 100644
+--- a/app/classes/Framadate/Migration/Generate_uniqId_for_old_votes.php
++++ b/app/classes/Framadate/Migration/Generate_uniqId_for_old_votes.php
+@@ -30,9 +30,6 @@ use PDO;
+  * @version 0.9
+  */
+ class Generate_uniqId_for_old_votes implements Migration {
+-    public function __construct() {
+-    }
+-
+     public function description(): string {
+         return 'Generate "uniqId" in "vote" table for all legacy votes';
+     }
+diff --git a/app/classes/Framadate/Migration/Increase_pollId_size.php b/app/classes/Framadate/Migration/Increase_pollId_size.php
+index f3b8ae5..cb7228a 100644
+--- a/app/classes/Framadate/Migration/Increase_pollId_size.php
++++ b/app/classes/Framadate/Migration/Increase_pollId_size.php
+@@ -6,9 +6,6 @@ use Framadate\Utils;
+ use PDO;
+ 
+ class Increase_pollId_size implements Migration {
+-    public function __construct() {
+-    }
+-
+     /**
+      * This method should describe in english what is the purpose of the migration class.
+      *
+diff --git a/app/classes/Framadate/Security/Token.php b/app/classes/Framadate/Security/Token.php
+index 30e889a..3035755 100644
+--- a/app/classes/Framadate/Security/Token.php
++++ b/app/classes/Framadate/Security/Token.php
+@@ -6,11 +6,9 @@ class Token {
+     public const DEFAULT_LENGTH = 64;
+     private $time;
+     private $value;
+-    private $length;
+     private static $codeAlphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
+ 
+-    public function __construct($length = self::DEFAULT_LENGTH) {
+-        $this->length = $length;
++    public function __construct(private int $length = self::DEFAULT_LENGTH) {
+         $this->time = time() + TOKEN_TIME;
+         $this->value = $this->generate();
+     }
+diff --git a/app/classes/Framadate/Services/AdminPollService.php b/app/classes/Framadate/Services/AdminPollService.php
+index 550150c..4bed111 100644
+--- a/app/classes/Framadate/Services/AdminPollService.php
++++ b/app/classes/Framadate/Services/AdminPollService.php
+@@ -13,19 +13,12 @@ use Framadate\Utils;
+  * @package Framadate\Services
+  */
+ class AdminPollService {
+-    private $connect;
+-    private $pollService;
+-    private $logService;
+-
+     private $pollRepository;
+     private $slotRepository;
+     private $voteRepository;
+     private $commentRepository;
+ 
+-    public function __construct(FramaDB $connect, PollService $pollService, LogService $logService) {
+-        $this->connect = $connect;
+-        $this->pollService = $pollService;
+-        $this->logService = $logService;
++    public function __construct(private FramaDB $connect, private PollService $pollService, private LogService $logService) {
+         $this->pollRepository = RepositoryFactory::pollRepository();
+         $this->slotRepository = RepositoryFactory::slotRepository();
+         $this->voteRepository = RepositoryFactory::voteRepository();
+diff --git a/app/classes/Framadate/Services/InstallService.php b/app/classes/Framadate/Services/InstallService.php
+index 7d5ae7b..a0cb64f 100644
+--- a/app/classes/Framadate/Services/InstallService.php
++++ b/app/classes/Framadate/Services/InstallService.php
+@@ -44,8 +44,6 @@ class InstallService {
+         'migrationTable' => 'framadate_migration'
+     ];
+ 
+-    public function __construct() {}
+-
+     public function updateFields($data): void
+     {
+         foreach ($data as $field => $value) {
+diff --git a/app/classes/Framadate/Services/LogService.php b/app/classes/Framadate/Services/LogService.php
+index a70f7e4..3a5ae7a 100644
+--- a/app/classes/Framadate/Services/LogService.php
++++ b/app/classes/Framadate/Services/LogService.php
+@@ -8,9 +8,6 @@ namespace Framadate\Services;
+  * @package Framadate\Services
+  */
+ class LogService {
+-    public function __construct() {
+-    }
+-
+     /**
+      * Log a message to the log file.
+      *
+diff --git a/app/classes/Framadate/Services/NotificationService.php b/app/classes/Framadate/Services/NotificationService.php
+index fc445d0..e2fbcd4 100644
+--- a/app/classes/Framadate/Services/NotificationService.php
++++ b/app/classes/Framadate/Services/NotificationService.php
+@@ -17,10 +17,7 @@ class NotificationService {
+     public const UPDATE_POLL = 10;
+     public const DELETED_POLL = 11;
+ 
+-    private $mailService;
+-
+-    public function __construct(MailService $mailService) {
+-        $this->mailService = $mailService;
++    public function __construct(private MailService $mailService) {
+     }
+ 
+     /**
+@@ -55,29 +52,14 @@ class NotificationService {
+             $urlSondage = Utils::getUrlSondage($poll->admin_id, true);
+             $link = '<a href="' . $urlSondage . '">' . $urlSondage . '</a>' . "\n\n";
+ 
+-            switch ($type) {
+-                case self::UPDATE_VOTE:
+-                    $message .= $name . ' ';
+-                    $message .= __('Mail', "updated a vote.\nYou can find your poll at the link") . " :\n\n";
+-                    $message .= $link;
+-                    break;
+-                case self::ADD_VOTE:
+-                    $message .= $name . ' ';
+-                    $message .= __('Mail', "filled a vote.\nYou can find your poll at the link") . " :\n\n";
+-                    $message .= $link;
+-                    break;
+-                case self::ADD_COMMENT:
+-                    $message .= $name . ' ';
+-                    $message .= __('Mail', "wrote a comment.\nYou can find your poll at the link") . " :\n\n";
+-                    $message .= $link;
+-                    break;
+-                case self::UPDATE_POLL:
+-                    $message = __f('Mail', 'Someone just change your poll available at the following link %s.', Utils::getUrlSondage($poll->admin_id, true)) . "\n\n";
+-                    break;
+-                case self::DELETED_POLL:
+-                    $message = __f('Mail', 'Someone just delete your poll %s.', Utils::htmlEscape($poll->title)) . "\n\n";
+-                    break;
+-            }
++            $message = match ($type) {
++                self::UPDATE_VOTE => $name . ' ' . __('Mail', "updated a vote.\nYou can find your poll at the link") . " :\n\n" . $link,
++                self::ADD_VOTE => $name . ' ' . __('Mail', "filled a vote.\nYou can find your poll at the link") . " :\n\n" . $link,
++                self::ADD_COMMENT => $name . ' ' . __('Mail', "wrote a comment.\nYou can find your poll at the link") . " :\n\n" . $link,
++                self::UPDATE_POLL => __f('Mail', 'Someone just change your poll available at the following link %s.', Utils::getUrlSondage($poll->admin_id, true)) . "\n\n",
++                self::DELETED_POLL => __f('Mail', 'Someone just delete your poll %s.', Utils::htmlEscape($poll->title)) . "\n\n",
++                default => $message,
++            };
+ 
+             $messageTypeKey = $type . '-' . $poll->id;
+             if ($poll->admin_mail) {
+diff --git a/bandeaux.php b/bandeaux.php
+index e1d460a..1424451 100644
+--- a/bandeaux.php
++++ b/bandeaux.php
+@@ -1,4 +1,5 @@
+ <?php
++declare(strict_types=1);
+ /**
+  * This software is governed by the CeCILL-B license. If a copy of this license
+  * is not distributed with this file, you can obtain one at
+@@ -61,7 +62,7 @@ function liste_lang(): string
+     $str = '';
+ 
+     foreach ($ALLOWED_LANGUAGES as $k => $v ) {
+-        if (strpos($k, $locale) === 0) {
++        if (str_starts_with($k, $locale)) {
+             $str .= '<option lang="' . substr($k,0,2) . '" selected value="' . $k . '">' . $v . '</option>' . "\n" ;
+         } else {
+             $str .= '<option lang="' . substr($k,0,2) . '" value="' . $k . '">' . $v . '</option>' . "\n" ;
+diff --git a/buildlang.php b/buildlang.php
+index 4afe6f9..4e8fc72 100644
+--- a/buildlang.php
++++ b/buildlang.php
+@@ -1,4 +1,5 @@
+ <?php
++declare(strict_types=1);
+ include_once __DIR__ . '/app/inc/init.php';
+ ?>
+ <html>
+diff --git a/composer.json b/composer.json
+index 0d7972e..cf8aa91 100644
+--- a/composer.json
++++ b/composer.json
+@@ -60,7 +60,7 @@
+         "lint": "find . -name \\*.php -not -path './vendor/*' -not -path './build/*' -not -path './tests/integration/vendor/*' -print0 | xargs -0 -n1 php -l"
+     },
+     "require": {
+-        "php": ">=7.3.0",
++        "php": ">=8.0.0",
+         "ext-pdo": "*",
+         "ext-json": "*",
+         "ext-intl": "*",
+@@ -91,7 +91,7 @@
+     },
+     "config": {
+         "platform": {
+-            "php": "7.3.0"
++            "php": "8.0.0"
+         }
+     }
+ }
+diff --git a/create_classic_poll.php b/create_classic_poll.php
+index 64a83e3..cb02c96 100644
+--- a/create_classic_poll.php
++++ b/create_classic_poll.php
+@@ -1,4 +1,5 @@
+ <?php
++declare(strict_types=1);
+ /**
+  * This software is governed by the CeCILL-B license. If a copy of this license
+  * is not distributed with this file, you can obtain one at
+diff --git a/create_date_poll.php b/create_date_poll.php
+index 783ef8d..56336bf 100644
+--- a/create_date_poll.php
++++ b/create_date_poll.php
+@@ -1,4 +1,5 @@
+ <?php
++declare(strict_types=1);
+ /**
+  * This software is governed by the CeCILL-B license. If a copy of this license
+  * is not distributed with this file, you can obtain one at
+diff --git a/create_poll.php b/create_poll.php
+index ce55f27..610bdd7 100644
+--- a/create_poll.php
++++ b/create_poll.php
+@@ -1,4 +1,5 @@
+ <?php
++declare(strict_types=1);
+ /**
+  * This software is governed by the CeCILL-B license. If a copy of this license
+  * is not distributed with this file, you can obtain one at
+diff --git a/exportcsv.php b/exportcsv.php
+index 6cda0b1..9d2a8c9 100644
+--- a/exportcsv.php
++++ b/exportcsv.php
+@@ -1,4 +1,5 @@
+ <?php
++declare(strict_types=1);
+ /**
+  * This software is governed by the CeCILL-B license. If a copy of this license
+  * is not distributed with this file, you can obtain one at
+@@ -103,19 +104,12 @@ foreach ($votes as $vote) {
+     echo Utils::csvEscape($vote->name) . ',';
+     $choices = str_split($vote->choices);
+     foreach ($choices as $choice) {
+-        switch ($choice) {
+-            case 0:
+-                $text = __('Generic', 'No');
+-                break;
+-            case 1:
+-                $text = __('Generic', 'Ifneedbe');
+-                break;
+-            case 2:
+-                $text = __('Generic', 'Yes');
+-                break;
+-            default:
+-                $text = __('Generic', 'Unknown');
+-        }
++        $text = match ((int) $choice) {
++            0 => __('Generic', 'No'),
++            1 => __('Generic', 'Ifneedbe'),
++            2 => __('Generic', 'Yes'),
++            default => __('Generic', 'Unknown'),
++        };
+         echo Utils::csvEscape($text);
+         echo ',';
+     }
+diff --git a/find_polls.php b/find_polls.php
+index 79660c5..23e14c7 100644
+--- a/find_polls.php
++++ b/find_polls.php
+@@ -1,4 +1,5 @@
+ <?php
++declare(strict_types=1);
+ /**
+  * This software is governed by the CeCILL-B license. If a copy of this license
+  * is not distributed with this file, you can obtain one at
+diff --git a/maintenance.php b/maintenance.php
+index 0a69e2e..a2498ba 100644
+--- a/maintenance.php
++++ b/maintenance.php
+@@ -1,4 +1,5 @@
+ <?php
++declare(strict_types=1);
+ /**
+  * This software is governed by the CeCILL-B license. If a copy of this license
+  * is not distributed with this file, you can obtain one at
+diff --git a/studs.php b/studs.php
+index a89b12a..b59a47f 100644
+--- a/studs.php
++++ b/studs.php
+@@ -1,4 +1,5 @@
+ <?php
++declare(strict_types=1);
+ /**
+  * This software is governed by the CeCILL-B license. If a copy of this license
+  * is not distributed with this file, you can obtain one at
+@@ -22,6 +23,7 @@ use Framadate\Exception\ConcurrentEditionException;
+ use Framadate\Exception\ConcurrentVoteException;
+ use Framadate\Message;
+ use Framadate\Security\Token;
++use Framadate\Services\AdminPollService;
+ use Framadate\Services\ICalService;
+ use Framadate\Services\InputService;
+ use Framadate\Services\LogService;
+@@ -31,7 +33,6 @@ use Framadate\Services\PollService;
+ use Framadate\Services\SecurityService;
+ use Framadate\Services\SessionService;
+ use Framadate\Utils;
+-use Framadate\Services\AdminPollService;
+ 
+ include_once __DIR__ . '/app/inc/init.php';
+ 
+@@ -209,7 +210,6 @@ if ($accessGranted) {
+             $message = new Message('danger', __('Error', 'Failed to delete the vote!'));
+         }
+     }
+-
+ }
+ 
+ // Functions

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This software is governed by the CeCILL-B license. If a copy of this license
  * is not distributed with this file, you can obtain one at
@@ -61,7 +62,7 @@ function liste_lang(): string
     $str = '';
 
     foreach ($ALLOWED_LANGUAGES as $k => $v ) {
-        if (strpos($k, $locale) === 0) {
+        if (str_starts_with($k, $locale)) {
             $str .= '<option lang="' . substr($k,0,2) . '" selected value="' . $k . '">' . $v . '</option>' . "\n" ;
         } else {
             $str .= '<option lang="' . substr($k,0,2) . '" value="' . $k . '">' . $v . '</option>' . "\n" ;

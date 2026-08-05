@@ -29,9 +29,6 @@ use PDO;
  * @version 0.9
  */
 class From_0_8_to_0_9_Migration implements Migration {
-    public function __construct() {
-    }
-
     /**
      * This method should describe in english what is the purpose of the migration class.
      *
