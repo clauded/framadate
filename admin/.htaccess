@@ -1,4 +1,15 @@
+# Protects /admin with HTTP Basic Auth.
+#
+# AuthUserFile must point to a .htpasswd file that exists on THIS server,
+# generated with:
+#   htpasswd -c /path/outside/the/webroot/admin_passwd yourusername
+# (drop -c when adding additional users to an existing file)
+#
+# Store it OUTSIDE the web root / outside this git repository - never commit
+# real credentials. Update the path below to match your deployment, and make
+# sure the vhost allows overriding it (AllowOverride AuthConfig or All) and
+# that mod_authn_file + mod_auth_basic are enabled.
 AuthType Basic
-AuthName "RSVP Administration"
+AuthName "Framadate Administration"
 Require valid-user
-AuthUserFile "/home/sporte2/.htpasswds/public_html/rsvp/admin/passwd"
+AuthUserFile "/CHANGE/ME/TO/YOUR/SERVER/PATH/admin_passwd"
