@@ -66,7 +66,7 @@ $sessionService = new SessionService();
 
 if (!empty($_GET['poll'])) {
     $admin_poll_id = filter_input(INPUT_GET, 'poll', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
-    if (strlen($admin_poll_id) === 24) {
+    if ($admin_poll_id && strlen($admin_poll_id) === 24) {
         $poll = $pollService->findByAdminId($admin_poll_id);
     }
 }
@@ -301,7 +301,7 @@ if (!empty($_POST['save'])) { // Save edition of an old vote
 
 if (!empty($_GET['delete_vote'])) {
     $vote_id = filter_input(INPUT_GET, 'delete_vote', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => BASE64_REGEX]]);
-    $vote_id = Utils::base64url_decode($vote_id);
+    $vote_id = $vote_id ? (int) Utils::base64url_decode($vote_id) : null;
     if ($vote_id && $adminPollService->deleteVote($poll_id, $vote_id)) {
         $message = new Message('success', __('adminstuds', 'Vote deleted'));
     } else {
@@ -335,7 +335,7 @@ if (isset($_POST['confirm_remove_all_votes'])) {
 if (!empty($_POST['delete_comment'])) {
     $comment_id = filter_input(INPUT_POST, 'delete_comment', FILTER_VALIDATE_INT);
 
-    if ($adminPollService->deleteComment($poll_id, $comment_id)) {
+    if ($comment_id && $adminPollService->deleteComment($poll_id, $comment_id)) {
         $message = new Message('success', __('adminstuds', 'Comment deleted'));
     } else {
         $message = new Message('danger', __('Error', 'Failed to delete the comment'));

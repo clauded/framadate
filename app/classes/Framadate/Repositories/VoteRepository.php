@@ -71,7 +71,7 @@ class VoteRepository extends AbstractRepository {
         return $prepared->execute([$index, $index + 2, $poll_id]);
     }
 
-    public function update(string $poll_id, string $vote_id, string $name, $choices): bool
+    public function update(string $poll_id, int $vote_id, string $name, $choices): bool
     {
         $prepared = $this->prepare('UPDATE `' . Utils::table('vote') . '` SET choices = ?, name = ? WHERE poll_id = ? AND id = ?');
 

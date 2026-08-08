@@ -52,12 +52,12 @@ $securityService = new SecurityService();
 
 if (!empty($_POST['poll'])) {
     $poll_id = filter_input(INPUT_POST, 'poll', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
-    $poll = $pollService->findById($poll_id);
+    $poll = $poll_id ? $pollService->findById($poll_id) : null;
 }
 
 if (!empty($_POST['poll_admin'])) {
     $admin_poll_id = filter_input(INPUT_POST, 'poll_admin', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
-    if (strlen($admin_poll_id) === 24) {
+    if ($admin_poll_id && strlen($admin_poll_id) === 24) {
         $is_admin = ($pollService->findByAdminId($admin_poll_id) !== null);
     }
 }

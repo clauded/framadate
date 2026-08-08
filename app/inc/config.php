@@ -38,7 +38,7 @@ const DB_CONNECTION_STRING = 'mysql:host=localhost;dbname=sporte2_framaset;port=
 const DB_USER= 'sporte2_framaset';
 
 // Database password
-const DB_PASSWORD = '3oiS3g(1p(';
+const DB_PASSWORD = 'h*B]]gRaodU@2h<>N%GV+.ag';
 
 // Table name prefix
 const TABLENAME_PREFIX = 'fd_';

@@ -40,14 +40,14 @@ $email = null;
 
 if (!empty($_POST['poll'])) {
     $poll_id = filter_input(INPUT_POST, 'poll', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
-    $poll = $pollService->findById($poll_id);
+    $poll = $poll_id ? $pollService->findById($poll_id) : null;
 }
 
 $token = $sessionService->get("Common", SESSION_EDIT_LINK_TOKEN);
 $token_form_value = empty($_POST['token']) ? null : $_POST['token'];
 $editedVoteUniqueId = filter_input(INPUT_POST, 'editedVoteUniqueId', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
 if ($config['use_smtp'] === false || is_null($poll) || is_null($token) || is_null($token_form_value)
-    || !$token->check($token_form_value) || is_null($editedVoteUniqueId)) {
+    || !$token->check($token_form_value) || $editedVoteUniqueId === null || $editedVoteUniqueId === false) {
     $message = new Message('error', __('Error', 'Something is going wrong...'));
 }
 

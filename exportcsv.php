@@ -48,10 +48,10 @@ global $date_format;
 
 if (!empty($_GET['poll'])) {
     $poll_id = filter_input(INPUT_GET, 'poll', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
-    $poll = $pollService->findById($poll_id);
+    $poll = $poll_id ? $pollService->findById($poll_id) : null;
 } else if (!empty($_GET['admin'])) {
     $admin_id = filter_input(INPUT_GET, 'admin', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => ADMIN_POLL_REGEX]]);
-    $poll = $pollService->findByAdminId($admin_id);
+    $poll = $admin_id ? $pollService->findByAdminId($admin_id) : null;
     if ($poll) {
         $poll_id = $poll->id;
     }

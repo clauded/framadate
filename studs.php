@@ -74,7 +74,7 @@ $adminPollService = new AdminPollService($connect, $pollService, $logService);
 
 if (!empty($_GET['poll'])) {
     $poll_id = filter_input(INPUT_GET, 'poll', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
-    $poll = $pollService->findById($poll_id);
+    $poll = $poll_id ? $pollService->findById($poll_id) : null;
 }
 
 if (!$poll) {
@@ -203,7 +203,7 @@ if ($accessGranted) {
     // -------------------------------
     if (!empty($_GET['delete_vote'])) {
         $vote_id = filter_input(INPUT_GET, 'delete_vote', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => BASE64_REGEX]]);
-        $vote_id = Utils::base64url_decode($vote_id);
+        $vote_id = $vote_id ? (int) Utils::base64url_decode($vote_id) : null;
         if ($vote_id && $adminPollService->deleteVote($poll_id, $vote_id)) {
             $message = new Message('success', __('adminstuds', 'Vote deleted'));
         } else {

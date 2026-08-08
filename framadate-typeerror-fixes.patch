@@ -1,0 +1,145 @@
+diff --git a/action/add_comment.php b/action/add_comment.php
+index 1fe7085..9274003 100644
+--- a/action/add_comment.php
++++ b/action/add_comment.php
+@@ -52,12 +52,12 @@ $securityService = new SecurityService();
+ 
+ if (!empty($_POST['poll'])) {
+     $poll_id = filter_input(INPUT_POST, 'poll', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
+-    $poll = $pollService->findById($poll_id);
++    $poll = $poll_id ? $pollService->findById($poll_id) : null;
+ }
+ 
+ if (!empty($_POST['poll_admin'])) {
+     $admin_poll_id = filter_input(INPUT_POST, 'poll_admin', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
+-    if (strlen($admin_poll_id) === 24) {
++    if ($admin_poll_id && strlen($admin_poll_id) === 24) {
+         $is_admin = ($pollService->findByAdminId($admin_poll_id) !== null);
+     }
+ }
+diff --git a/action/send_edit_link_by_email_action.php b/action/send_edit_link_by_email_action.php
+index 9dce910..861f26f 100644
+--- a/action/send_edit_link_by_email_action.php
++++ b/action/send_edit_link_by_email_action.php
+@@ -40,14 +40,14 @@ $email = null;
+ 
+ if (!empty($_POST['poll'])) {
+     $poll_id = filter_input(INPUT_POST, 'poll', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
+-    $poll = $pollService->findById($poll_id);
++    $poll = $poll_id ? $pollService->findById($poll_id) : null;
+ }
+ 
+ $token = $sessionService->get("Common", SESSION_EDIT_LINK_TOKEN);
+ $token_form_value = empty($_POST['token']) ? null : $_POST['token'];
+ $editedVoteUniqueId = filter_input(INPUT_POST, 'editedVoteUniqueId', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
+ if ($config['use_smtp'] === false || is_null($poll) || is_null($token) || is_null($token_form_value)
+-    || !$token->check($token_form_value) || is_null($editedVoteUniqueId)) {
++    || !$token->check($token_form_value) || $editedVoteUniqueId === null || $editedVoteUniqueId === false) {
+     $message = new Message('error', __('Error', 'Something is going wrong...'));
+ }
+ 
+diff --git a/admin/polls.php b/admin/polls.php
+index 2298fcf..2bcd116 100644
+--- a/admin/polls.php
++++ b/admin/polls.php
+@@ -72,13 +72,15 @@ $search['mail'] = filter_input(INPUT_GET, 'mail', FILTER_SANITIZE_STRING);
+ 
+ if (!empty($_POST['delete_poll']) && $securityService->checkCsrf('admin', $_POST['csrf'])) {
+     $delete_id = filter_input(INPUT_POST, 'delete_poll', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
+-    $poll_to_delete = $pollService->findById($delete_id);
++    $poll_to_delete = $delete_id ? $pollService->findById($delete_id) : null;
+ }
+ 
+ // Traitement de la confirmation de suppression
+ if (!empty($_POST['delete_confirm']) && $securityService->checkCsrf('admin', $_POST['csrf'])) {
+     $poll_id = filter_input(INPUT_POST, 'delete_confirm', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
+-    $adminPollService->deleteEntirePoll($poll_id);
++    if ($poll_id) {
++        $adminPollService->deleteEntirePoll($poll_id);
++    }
+ }
+ 
+ $found = $superAdminService->findAllPolls($search, $page - 1, POLLS_PER_PAGE);
+diff --git a/adminstuds.php b/adminstuds.php
+index 6abef7b..695b90a 100644
+--- a/adminstuds.php
++++ b/adminstuds.php
+@@ -66,7 +66,7 @@ $sessionService = new SessionService();
+ 
+ if (!empty($_GET['poll'])) {
+     $admin_poll_id = filter_input(INPUT_GET, 'poll', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
+-    if (strlen($admin_poll_id) === 24) {
++    if ($admin_poll_id && strlen($admin_poll_id) === 24) {
+         $poll = $pollService->findByAdminId($admin_poll_id);
+     }
+ }
+@@ -301,7 +301,7 @@ if (!empty($_POST['save'])) { // Save edition of an old vote
+ 
+ if (!empty($_GET['delete_vote'])) {
+     $vote_id = filter_input(INPUT_GET, 'delete_vote', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => BASE64_REGEX]]);
+-    $vote_id = Utils::base64url_decode($vote_id);
++    $vote_id = $vote_id ? (int) Utils::base64url_decode($vote_id) : null;
+     if ($vote_id && $adminPollService->deleteVote($poll_id, $vote_id)) {
+         $message = new Message('success', __('adminstuds', 'Vote deleted'));
+     } else {
+@@ -335,7 +335,7 @@ if (isset($_POST['confirm_remove_all_votes'])) {
+ if (!empty($_POST['delete_comment'])) {
+     $comment_id = filter_input(INPUT_POST, 'delete_comment', FILTER_VALIDATE_INT);
+ 
+-    if ($adminPollService->deleteComment($poll_id, $comment_id)) {
++    if ($comment_id && $adminPollService->deleteComment($poll_id, $comment_id)) {
+         $message = new Message('success', __('adminstuds', 'Comment deleted'));
+     } else {
+         $message = new Message('danger', __('Error', 'Failed to delete the comment'));
+diff --git a/app/classes/Framadate/Repositories/VoteRepository.php b/app/classes/Framadate/Repositories/VoteRepository.php
+index bcbc771..8805dd1 100644
+--- a/app/classes/Framadate/Repositories/VoteRepository.php
++++ b/app/classes/Framadate/Repositories/VoteRepository.php
+@@ -71,7 +71,7 @@ class VoteRepository extends AbstractRepository {
+         return $prepared->execute([$index, $index + 2, $poll_id]);
+     }
+ 
+-    public function update(string $poll_id, string $vote_id, string $name, $choices): bool
++    public function update(string $poll_id, int $vote_id, string $name, $choices): bool
+     {
+         $prepared = $this->prepare('UPDATE `' . Utils::table('vote') . '` SET choices = ?, name = ? WHERE poll_id = ? AND id = ?');
+ 
+diff --git a/exportcsv.php b/exportcsv.php
+index 9d2a8c9..b2743c9 100644
+--- a/exportcsv.php
++++ b/exportcsv.php
+@@ -48,10 +48,10 @@ global $date_format;
+ 
+ if (!empty($_GET['poll'])) {
+     $poll_id = filter_input(INPUT_GET, 'poll', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
+-    $poll = $pollService->findById($poll_id);
++    $poll = $poll_id ? $pollService->findById($poll_id) : null;
+ } else if (!empty($_GET['admin'])) {
+     $admin_id = filter_input(INPUT_GET, 'admin', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => ADMIN_POLL_REGEX]]);
+-    $poll = $pollService->findByAdminId($admin_id);
++    $poll = $admin_id ? $pollService->findByAdminId($admin_id) : null;
+     if ($poll) {
+         $poll_id = $poll->id;
+     }
+diff --git a/studs.php b/studs.php
+index b59a47f..5610f70 100644
+--- a/studs.php
++++ b/studs.php
+@@ -74,7 +74,7 @@ $adminPollService = new AdminPollService($connect, $pollService, $logService);
+ 
+ if (!empty($_GET['poll'])) {
+     $poll_id = filter_input(INPUT_GET, 'poll', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
+-    $poll = $pollService->findById($poll_id);
++    $poll = $poll_id ? $pollService->findById($poll_id) : null;
+ }
+ 
+ if (!$poll) {
+@@ -203,7 +203,7 @@ if ($accessGranted) {
+     // -------------------------------
+     if (!empty($_GET['delete_vote'])) {
+         $vote_id = filter_input(INPUT_GET, 'delete_vote', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => BASE64_REGEX]]);
+-        $vote_id = Utils::base64url_decode($vote_id);
++        $vote_id = $vote_id ? (int) Utils::base64url_decode($vote_id) : null;
+         if ($vote_id && $adminPollService->deleteVote($poll_id, $vote_id)) {
+             $message = new Message('success', __('adminstuds', 'Vote deleted'));
+         } else {

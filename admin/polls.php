@@ -72,13 +72,15 @@ $search['mail'] = filter_input(INPUT_GET, 'mail', FILTER_SANITIZE_STRING);
 
 if (!empty($_POST['delete_poll']) && $securityService->checkCsrf('admin', $_POST['csrf'])) {
     $delete_id = filter_input(INPUT_POST, 'delete_poll', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
-    $poll_to_delete = $pollService->findById($delete_id);
+    $poll_to_delete = $delete_id ? $pollService->findById($delete_id) : null;
 }
 
 // Traitement de la confirmation de suppression
 if (!empty($_POST['delete_confirm']) && $securityService->checkCsrf('admin', $_POST['csrf'])) {
     $poll_id = filter_input(INPUT_POST, 'delete_confirm', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
-    $adminPollService->deleteEntirePoll($poll_id);
+    if ($poll_id) {
+        $adminPollService->deleteEntirePoll($poll_id);
+    }
 }
 
 $found = $superAdminService->findAllPolls($search, $page - 1, POLLS_PER_PAGE);
