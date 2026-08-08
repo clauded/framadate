@@ -442,7 +442,7 @@ if (isset($_POST['confirm_add_column'])) {
         if ($poll->format === 'D') {
             $date = DateTime::createFromFormat(__('Date', 'datetime_parseformat'), $_POST['newdate'])->setTime(0, 0, 0);
             $time = $date->getTimestamp();
-            $newmoment = str_replace(',', '-', strip_tags($_POST['newmoment']));
+            $newmoment = str_replace(',', '-', strip_tags($_POST['newmoment'] ?? ''));
             $adminPollService->addDateSlot($poll_id, $time, $newmoment);
         } else {
             $newslot = str_replace(',', '-', strip_tags($_POST['choice']));

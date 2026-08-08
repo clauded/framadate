@@ -34,7 +34,7 @@ const POLLS_PER_PAGE = 30;
 function buildSearchQuery($search) {
     $query = '';
     foreach ($search as $key => $value) {
-        $query .= $key . '=' . urlencode($value) . '&';
+        $query .= $key . '=' . urlencode((string) $value) . '&';
     }
     return substr($query, 0, -1);
 }
