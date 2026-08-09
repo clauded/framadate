@@ -24,6 +24,11 @@ global $date_format;
 
 require_once __DIR__ . '/../../vendor/smarty/smarty/libs/Smarty.class.php';
 $smarty = new \Smarty();
+$smarty->registerPlugin(\Smarty::PLUGIN_MODIFIER, '__', '__');
+$smarty->registerPlugin(\Smarty::PLUGIN_MODIFIER, '__f', '__f');
+$smarty->registerPlugin(\Smarty::PLUGIN_MODIFIER, 'constant', 'constant');
+$smarty->registerPlugin(\Smarty::PLUGIN_MODIFIER, 'max', 'max');
+$smarty->registerPlugin(\Smarty::PLUGIN_MODIFIER, 'preg_match', 'preg_match');
 $smarty->setTemplateDir(ROOT_DIR . '/tpl/');
 $smarty->setCompileDir(ROOT_DIR . COMPILE_DIR);
 $smarty->setCacheDir(ROOT_DIR . '/cache/');

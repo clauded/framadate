@@ -196,7 +196,7 @@ class Utils {
         return preg_replace(' {2,}', ' ', $cleaned);
     }
 
-    public static function fromPostOrDefault(string $postKey, ?string $default = '') {
+    public static function fromPostOrDefault(string $postKey, mixed $default = '') {
         return !empty($_POST[$postKey]) ? $_POST[$postKey] : $default;
     }
 
