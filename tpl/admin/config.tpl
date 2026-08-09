@@ -26,28 +26,28 @@
 const NOMAPPLICATION = '{$appName|addslashes_single_quote}';
 
 // Database administrator email
-const ADRESSEMAILADMIN = '{$appMail}';
+const ADRESSEMAILADMIN = '{$appMail|addslashes_single_quote}';
 
 // Email for automatic responses (you should set it to "no-reply")
-const ADRESSEMAILREPONSEAUTO = '{$responseMail}';
+const ADRESSEMAILREPONSEAUTO = '{$responseMail|addslashes_single_quote}';
 
 // Database server name, leave empty to use a socket
-const DB_CONNECTION_STRING = '{$dbConnectionString}';
+const DB_CONNECTION_STRING = '{$dbConnectionString|addslashes_single_quote}';
 
 // Database user
-const DB_USER= '{$dbUser}';
+const DB_USER= '{$dbUser|addslashes_single_quote}';
 
 // Database password
 const DB_PASSWORD = '{$dbPassword|addslashes_single_quote}';
 
 // Table name prefix
-const TABLENAME_PREFIX = '{$dbPrefix}';
+const TABLENAME_PREFIX = '{$dbPrefix|addslashes_single_quote}';
 
 // Name of the table that stores migration script already executed
-const MIGRATION_TABLE = '{$migrationTable}';
+const MIGRATION_TABLE = '{$migrationTable|addslashes_single_quote}';
 
 // Default Language
-const DEFAULT_LANGUAGE = '{$defaultLanguage}';
+const DEFAULT_LANGUAGE = '{$defaultLanguage|addslashes_single_quote}';
 
 // List of supported languages, fake constant as arrays can be used as constants only in PHP >=5.6
 $ALLOWED_LANGUAGES = [

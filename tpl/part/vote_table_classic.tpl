@@ -56,7 +56,7 @@
             {* Line displaying votes summary *}
             {if !$hidden}
                 {$count_bests = 0}
-                {$max = max($best_choices['y'])}
+                {if $best_choices['y']|count > 0}{$max = max($best_choices['y'])}{else}{$max = 0}{/if}
                 {if $max > 0}
                     <tr id="total">
                         <td style="text-align:left">
@@ -379,7 +379,7 @@
 
 {if !$hidden}
     {* Best votes listing *}
-    {$max = max($best_choices['y'])}
+    {if $best_choices['y']|count > 0}{$max = max($best_choices['y'])}{else}{$max = 0}{/if}
     {if $max > 0}
         <div class="row">
             {if $count_bests == 1}

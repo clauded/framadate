@@ -18,21 +18,21 @@
                     <div class="form-group">
                         <div class="input-group">
                             <label for="appName" class="input-group-addon">{__('Generic', 'ASTERISK')} {__('Installation', 'AppName')}</label>
-                            <input type="text" class="form-control" id="appName" name="appName" value="{$fields['appName']}" autofocus required>
+                            <input type="text" class="form-control" id="appName" name="appName" value="{$fields['appName']|html}" autofocus required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="input-group">
                             <label for="appMail" class="input-group-addon">{__('Generic', 'ASTERISK')} {__('Installation', 'AppMail')}</label>
-                            <input type="email" class="form-control" id="appMail" name="appMail" value="{$fields['appMail']}" required>
+                            <input type="email" class="form-control" id="appMail" name="appMail" value="{$fields['appMail']|html}" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="input-group">
                             <label for="responseMail" class="input-group-addon">{__('Installation', 'ResponseMail')}</label>
-                            <input type="email" class="form-control" id="responseMail" name="responseMail" value="{$fields['responseMail']}">
+                            <input type="email" class="form-control" id="responseMail" name="responseMail" value="{$fields['responseMail']|html}">
                         </div>
                     </div>
 
@@ -62,35 +62,35 @@
                 <div class="form-group">
                     <div class="input-group">
                         <label for="dbConnectionString" class="input-group-addon">{__('Generic', 'ASTERISK')} {__('Installation', 'DbConnectionString')}</label>
-                        <input type="text" class="form-control" id="dbConnectionString" name="dbConnectionString" value="{$fields['dbConnectionString']}" required>
+                        <input type="text" class="form-control" id="dbConnectionString" name="dbConnectionString" value="{$fields['dbConnectionString']|html}" required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="input-group">
                         <label for="dbUser" class="input-group-addon">{__('Generic', 'ASTERISK')} {__('Installation', 'DbUser')}</label>
-                        <input type="text" class="form-control" id="dbUser" name="dbUser" value="{$fields['dbUser']}" required>
+                        <input type="text" class="form-control" id="dbUser" name="dbUser" value="{$fields['dbUser']|html}" required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="input-group">
                         <label for="dbPassword" class="input-group-addon">{__('Installation', 'DbPassword')}</label>
-                        <input type="password" class="form-control" id="dbPassword" name="dbPassword" value="{$fields['dbPassword']}">
+                        <input type="password" class="form-control" id="dbPassword" name="dbPassword" value="{$fields['dbPassword']|html}">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="input-group">
                         <label for="dbPrefix" class="input-group-addon">{__('Installation', 'DbPrefix')}</label>
-                        <input type="text" class="form-control" id="dbPrefix" name="dbPrefix" value="{$fields['dbPrefix']}">
+                        <input type="text" class="form-control" id="dbPrefix" name="dbPrefix" value="{$fields['dbPrefix']|html}">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="input-group">
                         <label for="migrationTable" class="input-group-addon">{__('Generic', 'ASTERISK')} {__('Installation', 'MigrationTable')}</label>
-                        <input type="text" class="form-control" id="migrationTable" name="migrationTable" value="{$fields['migrationTable']}" required>
+                        <input type="text" class="form-control" id="migrationTable" name="migrationTable" value="{$fields['migrationTable']|html}" required>
                     </div>
                 </div>
             </fieldset>

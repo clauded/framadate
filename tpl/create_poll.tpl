@@ -27,7 +27,7 @@
 
                     <div class="col-sm-8">
                         {if $useRemoteUser}
-                            <input type="hidden" name="name" value="{$form->admin_name}" />{$form->admin_name}
+                            <input type="hidden" name="name" value="{$form->admin_name|html}" />{$form->admin_name|html}
                         {else}
                             <input id="yourname" type="text" required maxlength="32" name="name" class="form-control" {$errors['name']['aria']} value="{$poll_name|html}" />
                         {/if}
@@ -50,7 +50,7 @@
 
                     <div class="col-sm-8">
                         {if $useRemoteUser}
-                            <input type="hidden" name="mail" value="{$form->admin_mail}">{$form->admin_mail}
+                            <input type="hidden" name="mail" value="{$form->admin_mail|html}">{$form->admin_mail|html}
                         {else}
                             <input id="email" required type="email" name="mail" class="form-control" {$errors['email']['aria']} value="{$poll_mail|html}" />
                         {/if}

@@ -1,15 +1,11 @@
-# Protects /admin with HTTP Basic Auth.
-#
-# AuthUserFile must point to a .htpasswd file that exists on THIS server,
-# generated with:
-#   htpasswd -c /path/outside/the/webroot/admin_passwd yourusername
-# (drop -c when adding additional users to an existing file)
-#
-# Store it OUTSIDE the web root / outside this git repository - never commit
-# real credentials. Update the path below to match your deployment, and make
-# sure the vhost allows overriding it (AllowOverride AuthConfig or All) and
-# that mod_authn_file + mod_auth_basic are enabled.
+#----------------------------------------------------------------cp:ppd
+# Section managed by cPanel: Password Protected Directories     -cp:ppd
+# - Do not edit this section of the htaccess file!              -cp:ppd
+#----------------------------------------------------------------cp:ppd
 AuthType Basic
 AuthName "Framadate Administration"
+AuthUserFile "/home/sporte2/.htpasswds/public_html/framadate/admin/passwd"
 Require valid-user
-AuthUserFile "/CHANGE/ME/TO/YOUR/SERVER/PATH/admin_passwd"
+#----------------------------------------------------------------cp:ppd
+# End section managed by cPanel: Password Protected Directories -cp:ppd
+#----------------------------------------------------------------cp:ppd
