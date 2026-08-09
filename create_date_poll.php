@@ -173,7 +173,7 @@ switch ($step) {
         }
         $summary .= '</ul>';
 
-        $end_date_str = utf8_encode(formatDate($date_format['txt_date'], $pollService->maxExpiryDate()->getTimestamp())); // textual date
+        $end_date_str = formatDate($date_format['txt_date'], $pollService->maxExpiryDate()->getTimestamp()); // textual date
 
         $_SESSION['form'] = serialize($form);
 
