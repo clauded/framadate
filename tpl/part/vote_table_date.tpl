@@ -141,7 +141,7 @@
                                         </label>
                                     </li>
                                     <li class="hide">
-                                      <input type="radio" id="n-choice-{$i}" name="choices[{$i}]" value=" "
+                                      <input type="radio" id="r-choice-{$i}" name="choices[{$i}]" value=" "
                                       	{(isset($selectedNewVotes[$i]) && ("" !== $selectedNewVotes[$i])) ? "" : " checked"}
                                       />
                                     </li>
@@ -228,7 +228,7 @@
                                     </label>
                                 </li>
                                 <li class="hide">
-                                    <input type="radio" id="n-choice-{$k}" name="choices[{$k}]" value=" " {if $choice!='2' && $choice!='1' && $choice!='0'}checked {/if}/>
+                                    <input type="radio" id="r-choice-{$k}" name="choices[{$k}]" value=" " {if $choice!='2' && $choice!='1' && $choice!='0'}checked {/if}/>
                                 </li>
                             </ul>
                         </td>

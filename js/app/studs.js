@@ -66,6 +66,17 @@ $(document).ready(function () {
         // If both are valid, allow normal submission
     });
 
+    $('.choice input:radio').on('mousedown', function(){
+      $(this).data('wasChecked', $(this).is(':checked'));
+    });
+    $('.choice input:radio').on('click', function(){
+      if ($(this).data('wasChecked')) {
+        // The user clicked a choice that was already selected: unselect it
+        // by switching to the hidden "reset" radio in the same group.
+        $(this).closest('ul').find('input[id^="r-choice-"]').prop('checked', true).trigger('change');
+      }
+    });
+
     $('.choice input:radio').on('change', function(){
       $(this).parent().parent().find('.startunchecked').removeClass('startunchecked');
     });
