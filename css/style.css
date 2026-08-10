@@ -18,6 +18,7 @@
     font-family: "DejaVu Sans";
     src: url('../fonts/DejaVuSans.ttf');
 }
+
 body {
   font-family: "DejaVu Sans", Verdana, Geneva, sans-serif;
   color:#333;
@@ -67,19 +68,24 @@ a:focus { /* a11y */
 main {
     margin-top: 20px;
 }
+
 header h1 {
     margin-top: 0;
 }
+
 .container {
     padding: 30px;
 }
+
 .container .jumbotron {
-    padding: 20px 20px;
+    padding: 20px;
     border-radius: 2px;
 }
+
 .container .jumbotron p {
     font-size: 1em;
 }
+
 .container .jumbotron .btn-group >.btn {
     margin-bottom: 20px;
     white-space: normal;
@@ -119,14 +125,17 @@ header h1 {
 }
 
 /* Description du sondage */
+
     /* studs.php et adminstuds.php */
 header .lead {
     padding: 10px 0;
     margin:0;
 }
+
 header form .input-group .form-control {
     margin-bottom: 20px;
 }
+
 header form .input-group .input-group-btn {
     vertical-align: top;
 }
@@ -134,6 +143,7 @@ header form .input-group .input-group-btn {
 #admin-link, #public-link {
     cursor:text;
 }
+
 .admin-link, .public-link,
 .admin-link:hover, .public-link:hover {
     color:#333;
@@ -155,6 +165,7 @@ header form .input-group .input-group-btn {
 .form-group  .CodeMirror, .form-group  .CodeMirror-scroll {
     min-height: 200px;
 }
+
 #description-form  .CodeMirror {
     background-color: #f5f5f5;
 }
@@ -164,6 +175,7 @@ header form .input-group .input-group-btn {
     margin-top: 10px;
     background-color: #eee;
 }
+
 #poll_comments {
     margin-top: 10px;
 }
@@ -174,7 +186,7 @@ h4.control-label {
     margin-bottom: 5px;
     font-weight: 700;
     font-size: 14px;
-    line-height: 1.42857;
+    line-height: 1.4286;
     margin-top:0;
 }
 
@@ -234,6 +246,7 @@ caption {
 .jumbotron p.well {
     font-size:16px;
 }
+
 .jumbotron p {
     font-weight: normal;
 }
@@ -274,7 +287,8 @@ table.results thead th {
     max-width:200px;
     overflow:hidden;
     text-overflow:ellipsis;
-    /*white-space: nowrap;*/
+
+    /* white-space: nowrap; */
 }
 
 table.results thead th img {
@@ -346,6 +360,7 @@ table.results .btn-link.btn-sm {
     margin:0;
     font-size:12px;
 }
+
 #vote-form td label {
     padding: 1px 3px;
 }
@@ -353,9 +368,11 @@ table.results .btn-link.btn-sm {
 #vote-form td {
     border-top:2px solid white;
 }
+
 #vote-form td:first-child {
     min-width: 180px;
 }
+
 .yes input, .ifneedbe input,.no input {
     position: absolute;
     width: 1px;
@@ -363,7 +380,7 @@ table.results .btn-link.btn-sm {
     padding: 0;
     margin: -1px;
     overflow: hidden;
-    clip: rect(0px, 0px, 0px, 0px);
+    clip: rect(0, 0, 0, 0);
     border: 0 none;
 }
 
@@ -371,6 +388,7 @@ table.results .btn-link.btn-sm {
     outline: 2px dotted #000;
     outline-offset: -2px;
 }
+
 .choice {
     width: 35px;
     margin:0 auto !important;
@@ -450,7 +468,6 @@ span.edit-username-left {
 
 table.results .bg-danger .glyphicon {
     opacity:0;
-
     animation-name: hideNoIcon;
     animation-iteration-count: 1;
     animation-timing-function: ease-in;
@@ -461,6 +478,7 @@ table.results .bg-danger .glyphicon {
     0% {
         opacity:1;
     }
+
     100% {
         opacity:0;
     }
@@ -501,6 +519,7 @@ table.results > tbody > tr:hover > td .glyphicon {
     padding-top: 0;
     padding-bottom: 0;
 }
+
 #selected-days legend {
     height: 33px;
 }
@@ -522,6 +541,7 @@ table.results > tbody > tr:hover > td .glyphicon {
 #poll_search {
     cursor: pointer;
 }
+
 .table-of-polls {
     overflow-x: scroll;
     margin-bottom: 0;
@@ -548,9 +568,11 @@ table.results > tbody > tr:hover > td .glyphicon {
 .icon-huge {
     font-size: 50px;
 }
+
 .mt-5 {
     margin-top: 5px;
 }
+
 .ml-5 {
     margin-left: 5px;
 }
