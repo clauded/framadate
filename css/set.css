@@ -238,4 +238,34 @@ btn-group-sm>.btn, .btn-sm {
     border-color: #ffc107;
 }
 
+/* Poll info legend icons */
+.legend-icon-positive {
+	color: #849551;
+}
+.legend-icon-negative {
+	color: #AD220F;
+}
+.legend-icon-info {
+	color: #0366D6;
+}
+
+/* Vote table scroll anchors and results highlighting */
+.scroll-anchor-right {
+	text-align: right;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+.yes-count-best {
+	font-weight: 600;
+}
+.icon-large {
+	font-size: 1.3em;
+}
+.scroll-buttons {
+	margin-top: -20px;
+}
+.scroll-right {
+	margin-right: 20px;
+}
+
 /*******************************/

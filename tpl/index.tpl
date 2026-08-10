@@ -45,7 +45,7 @@
                 <h3>{__('1st section', 'What is that?')}</h3>
 
                 <p class="text-center" role="presentation">
-                    <span class="glyphicon glyphicon-question-sign" style="font-size:50px"></span>
+                    <span class="glyphicon glyphicon-question-sign icon-huge"></span>
                 </p>
 
                 <p>{__('1st section', 'Framadate is an online service for planning an appointment or make a decision quickly and easily. No registration is required.')}</p>
@@ -71,7 +71,7 @@
                 <h3>{__('2nd section', 'The software')}</h3>
 
                 <p class="text-center" role="presentation">
-                    <span class="glyphicon glyphicon-cloud" style="font-size:50px"></span>
+                    <span class="glyphicon glyphicon-cloud icon-huge"></span>
                 </p>
 
                 <p>{__('2nd section', 'Framadate was initially based on ')}
@@ -98,7 +98,7 @@
                 <h3>{__('3rd section', 'Cultivate your garden')}</h3>
 
                 <p class="text-center" role="presentation">
-                    <span class="glyphicon glyphicon-tree-deciduous" style="font-size:50px"></span>
+                    <span class="glyphicon glyphicon-tree-deciduous icon-huge"></span>
                 </p>
 
                 <p>

@@ -75,7 +75,7 @@
                                 {/foreach}
 
                                 <div class="col-sm-2">
-                                    <div class="btn-group btn-group-xs" style="margin-top: 5px;">
+                                    <div class="btn-group btn-group-xs mt-5">
                                         <button type="button" title="{__('Step 2 date', 'Remove an hour')}" class="remove-an-hour btn btn-default">
                                             <span class="glyphicon glyphicon-minus text-info"></span>
                                             <span class="sr-only">{__('Step 2 date', 'Remove an hour')}</span>
@@ -132,7 +132,7 @@
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{__('Generic', 'Close')}">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <h4 class="modal-title">{__('Date', 'Add range dates')}</h4>

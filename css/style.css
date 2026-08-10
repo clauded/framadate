@@ -543,3 +543,14 @@ table.results > tbody > tr:hover > td .glyphicon {
 .btn {
     white-space: normal;
 }
+
+/* Utilities */
+.icon-huge {
+    font-size: 50px;
+}
+.mt-5 {
+    margin-top: 5px;
+}
+.ml-5 {
+    margin-left: 5px;
+}

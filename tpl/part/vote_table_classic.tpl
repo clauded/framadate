@@ -59,7 +59,7 @@
                 {if $best_choices['y']|count > 0}{$max = max($best_choices['y'])}{else}{$max = 0}{/if}
                 {if $max > 0}
                     <tr id="total">
-                        <td style="text-align:left">
+                        <td class="text-left">
                             {* Total number of votes *}
                             {$votes|count} {if ($votes|count)==1}{__('Poll results', 'polled user')}{else}{__('Poll results', 'polled users')}{/if}{if $poll->ValueMax ne NULL && ($votes|count)>=$poll->ValueMax} ({__('Generic', 'maximum voters reached')}!){elseif $poll->ValueMax ne NULL && $poll->ValueMax > 0} ({__('Generic', 'maximum')}: {$poll->ValueMax}){/if}
                         </td>
@@ -68,7 +68,7 @@
                             {if $max == $best_choice}
                                 {$count_bests = $count_bests +1}
                                 <td>
-                                    <span class="yes-count" style="font-weight:600;">{$best_choice|html}</span>
+                                    <span class="yes-count yes-count-best">{$best_choice|html}</span>
                                     {if $best_choices['inb'][$i]>0}<br/><span class="small text-muted">(+<span class="inb-count">{$best_choices['inb'][$i]|html}</span>)</span>{/if}
                                 </td>
                             {elseif $best_choice > 0}
@@ -200,13 +200,13 @@
                     </td>
                     <td>
                        <a href="{poll_url id=$poll_id admin=false action='delete_vote' action_value=$vote->id}" class="btn btn-default btn-sm btn-danger" title="{__('Poll results', 'Remove the line:')} {$vote->name|html}">
-                         <i class="glyphicon glyphicon-trash" style="font-size:1.3em;" aria-hidden="true"></i>
+                         <i class="glyphicon glyphicon-trash icon-large" aria-hidden="true"></i>
                          <span class="sr-only">{__('Generic', 'Remove')}</span>
                        </a>
                     </td>
                     <td>
-                       <a href="javascript:history.go(-1)" class="btn btn-default btn-sm btn-cancel" style="margin-left:5px" title="{__('Generic', 'Cancel')}">
-                         <i class="glyphicon glyphicon-remove" style="font-size:1.3em;" aria-hidden="true"></i>
+                       <a href="javascript:history.go(-1)" class="btn btn-default btn-sm btn-cancel ml-5" title="{__('Generic', 'Cancel')}">
+                         <i class="glyphicon glyphicon-remove icon-large" aria-hidden="true"></i>
                          <span class="sr-only">{__('Generic', 'Cancel')}</span>
                        </a>
                     </td>
@@ -251,7 +251,7 @@
                         }
                             <td class="hidden-print">
                                 <a href="{if $admin}{poll_url id=$poll->admin_id vote_id=$vote->uniqId admin=true}{else}{poll_url id=$poll->id vote_id=$vote->uniqId}{/if}" class="btn btn-default btn-sm" title="{__f('Poll results', 'Edit the line: %s', $vote->name)|html}">
-                                    <i class="glyphicon glyphicon-edit" style="font-size:1em;"></i><span class="sr-only">{__('Generic', 'Edit')}</span>
+                                    <i class="glyphicon glyphicon-edit"></i><span class="sr-only">{__('Generic', 'Edit')}</span>
                                 </a>
                                 {if $admin}
                                     <a href="{poll_url id=$poll->id vote_id=$vote->uniqId}" class="btn btn-default btn-sm clipboard-url" data-toggle="popover" data-trigger="manual" title="{__('Poll results', 'Link to edit this particular line')}" data-content="{__('Poll results', 'Link to edit this particular line has been copied inside the clipboard!')}">

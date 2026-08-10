@@ -107,10 +107,10 @@
                     {* Buttons description *}
                     <div class="form-control-static well poll-description">
                         <p>
-                            <i class="glyphicon glyphicon-ok btn-xs" style="color:#849551;"></i>{__('PollInfo', 'Choose an option')}<br class="mobile-break">
-                            <i class="glyphicon glyphicon-remove btn-xs" style="color:#AD220F;"></i>{__('PollInfo', 'Remove an option')}<br class="mobile-break">
-                            <i class="glyphicon glyphicon-save btn-xs" style="color:#0366D6"></i>{__('PollInfo', 'Save your vote')}<br class="mobile-break">
-                            <i class="glyphicon glyphicon-edit btn-xs" style=""></i>{__('PollInfo', 'Edit a vote')}
+                            <i class="glyphicon glyphicon-ok btn-xs legend-icon-positive"></i>{__('PollInfo', 'Choose an option')}<br class="mobile-break">
+                            <i class="glyphicon glyphicon-remove btn-xs legend-icon-negative"></i>{__('PollInfo', 'Remove an option')}<br class="mobile-break">
+                            <i class="glyphicon glyphicon-save btn-xs legend-icon-info"></i>{__('PollInfo', 'Save your vote')}<br class="mobile-break">
+                            <i class="glyphicon glyphicon-edit btn-xs"></i>{__('PollInfo', 'Edit a vote')}
                         </p>
                     </div>
                 </div>

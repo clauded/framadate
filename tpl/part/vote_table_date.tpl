@@ -2,10 +2,10 @@
     {$best_choices = [0]}
 {/if}
 
-<h5 id="top" style="text-align:right; margin-top: 0px; margin-bottom: 0px;">
+<h5 id="top" class="scroll-anchor-right">
     <a href="#bottom">
-        <button class="btn btn-default btn-sm btn-cancel" title="Bas">
-            <i class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i><span class="sr-only">Bas</span>
+        <button class="btn btn-default btn-sm btn-cancel" title="{__('Generic', 'Down')}">
+            <i class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i><span class="sr-only">{__('Generic', 'Down')}</span>
         </button>
     </a>
 </h5>
@@ -166,11 +166,11 @@
                 {if $best_choices['y']|count > 0}{$max = max($best_choices['y'])}{else}{$max = 0}{/if}
                 {if $max > 0}
                     <tr id="addition">
-                        <td style="text-align:left">{$votes|count} {if ($votes|count)==1}{__('Poll results', 'polled user')}{else}{__('Poll results', 'polled users')}{/if}</td>
+                        <td class="text-left">{$votes|count} {if ($votes|count)==1}{__('Poll results', 'polled user')}{else}{__('Poll results', 'polled users')}{/if}</td>
                         {foreach $best_choices['y'] as $i=>$best_moment}
                             {if $max == $best_moment}
                                 {$count_bests = $count_bests +1}
-                                <td><span class="yes-count" style="font-weight:600;color:magenta;">{$best_moment|html}</span>{if $best_choices['inb'][$i]>0}<br/><span class="small text-muted">(+<span class="inb-count">{$best_choices['inb'][$i]|html}</span>)</span>{/if}</td>
+                                <td><span class="yes-count yes-count-best">{$best_moment|html}</span>{if $best_choices['inb'][$i]>0}<br/><span class="small text-muted">(+<span class="inb-count">{$best_choices['inb'][$i]|html}</span>)</span>{/if}</td>
                             {elseif $best_moment > 0}
                                 <td><span class="yes-count">{$best_moment|html}</span>{if $best_choices['inb'][$i]>0}<br/><span class="small text-muted">(+<span class="inb-count">{$best_choices['inb'][$i]|html}</span>)</span>{/if}</td>
                             {elseif $best_choices['inb'][$i]>0}
@@ -328,10 +328,10 @@
         </table>
     </form>
 </div>
-<h5 id="bottom" style="text-align:right; margin-top: 0px; margin-bottom: 0px;">
+<h5 id="bottom" class="scroll-anchor-right">
     <a href="#top">
-        <button class="btn btn-default btn-sm btn-cancel" title="Haut">
-            <i class="glyphicon glyphicon-chevron-up" aria-hidden="true"></i><span class="sr-only">Haut</span>
+        <button class="btn btn-default btn-sm btn-cancel" title="{__('Generic', 'Up')}">
+            <i class="glyphicon glyphicon-chevron-up" aria-hidden="true"></i><span class="sr-only">{__('Generic', 'Up')}</span>
         </button>
     </a>
 </h5>

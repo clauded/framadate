@@ -246,7 +246,7 @@ if (isset($_GET['get_ical_file'])) {
         $icalService->getEvent($poll, (string)$elements[0], (string)$elements[1]);
     }
     header('HTTP/1.1 500 Internal Server Error');
-    echo 'Internal error';
+    echo __('Error', 'Internal error');
 }
 
 // Retrieve data
