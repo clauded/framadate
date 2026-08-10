@@ -554,3 +554,8 @@ table.results > tbody > tr:hover > td .glyphicon {
 .ml-5 {
     margin-left: 5px;
 }
+
+/* Admin index menu */
+.admin-menu-title {
+    font-size: 16px;
+}
