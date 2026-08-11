@@ -23,6 +23,15 @@
     # Poll admin link: {poll_id}/admin
     RewriteRule ^([a-zA-Z0-9-]+)/admin/?$ adminstuds.php?poll=$1 [L,QSA]
 
+    # Edit an existing vote from the admin view: {poll_id}/admin/vote/{vote_id}
+    RewriteRule ^([a-zA-Z0-9-]+)/admin/vote/([a-zA-Z0-9_-]+)/?$ adminstuds.php?poll=$1&vote=$2 [L,QSA]
+
+    # Admin action with a value: {poll_id}/admin/action/{action}/{value}
+    RewriteRule ^([a-zA-Z0-9-]+)/admin/action/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_=-]+)/?$ adminstuds.php?poll=$1&$2=$3 [L,QSA]
+
+    # Admin action without a value: {poll_id}/admin/action/{action}
+    RewriteRule ^([a-zA-Z0-9-]+)/admin/action/([a-zA-Z0-9_-]+)/?$ adminstuds.php?poll=$1&$2= [L,QSA]
+
     # Edit an existing vote: {poll_id}/vote/{vote_id}
     RewriteRule ^([a-zA-Z0-9-]+)/vote/([a-zA-Z0-9_-]+)/?$ studs.php?poll=$1&vote=$2 [L,QSA]
 
