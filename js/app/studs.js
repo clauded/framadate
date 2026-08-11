@@ -23,11 +23,13 @@ $(document).ready(function () {
         var name = $('#name').val().trim();
         var nameIsValid = name.length !== 0;
         
-        // Only perform choice validation if form contains the element with id "vote-choice-add"
+        // Only perform choice validation if the form contains the add-new-vote
+        // block or the edit-existing-vote block.
         var isAddNewVote = $('#vote-choice-add').length > 0;
-        // At least one choice made validation (add vote)
+        var isEditVote = $('#vote-choice').length > 0;
+        // At least one choice made validation
         var nb_filled_choices = 0;
-        $('ul#vote-choice-add input').each(function () {
+        $('ul#vote-choice-add input, ul#vote-choice input').each(function () {
             if ($(this).val() == '2' && $(this).is(':checked')) {
                 nb_filled_choices++;
             }
@@ -52,7 +54,7 @@ $(document).ready(function () {
         }
 
         // Validate at least one choice
-        if (isAddNewVote && !atLeastOneChoice) {
+        if ((isAddNewVote || isEditVote) && !atLeastOneChoice) {
             event.preventDefault();
             var choiceMessage = $('#choiceErrorMessage').clone();
             messageContainer.append(choiceMessage);

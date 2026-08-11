@@ -25,6 +25,7 @@ use Exception;
 use Framadate\Exception\AlreadyExistsException;
 use Framadate\Exception\ConcurrentEditionException;
 use Framadate\Exception\ConcurrentVoteException;
+use Framadate\Exception\NoChoiceSelectedException;
 use Framadate\Exception\PollNotFoundException;
 use Framadate\Form;
 use Framadate\Repositories\RepositoryFactory;
@@ -302,6 +303,9 @@ class PollService {
      */
     private function checkVoteConstraints(array $choices, string $poll_id, string $slots_hash, string $name, $vote_id = false): void
     {
+        if (!in_array('2', $choices, true)) {
+            throw new NoChoiceSelectedException();
+        }
         // Check if vote already exists with the same name
         if (false === $vote_id) {
         	$exists = $this->voteRepository->existsByPollIdAndName($poll_id, $name);

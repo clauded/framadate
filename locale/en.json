@@ -138,6 +138,7 @@
       "Framadate is not properly installed, please check the \"INSTALL\" to setup the database before continuing.": "Framadate is not properly installed, please see the 'INSTALL' file for instructions on setting up the database before continuing.",
       "Internal error": "Internal error",
       "Javascript is disabled on your browser. Its activation is required to create a poll.": "JavaScript is disabled on your browser. It is required to create a poll.",
+      "Make at least a choice.": "Make at least a choice.",
       "MISSING_VALUES": "Missing values",
       "Name is limited to 32 characters": "Name is limited to 32 characters",
       "No polls found": "No polls found",

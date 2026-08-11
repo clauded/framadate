@@ -22,6 +22,7 @@ use Framadate\Exception\AlreadyExistsException;
 use Framadate\Exception\ConcurrentEditionException;
 use Framadate\Exception\ConcurrentVoteException;
 use Framadate\Exception\MomentAlreadyExistsException;
+use Framadate\Exception\NoChoiceSelectedException;
 use Framadate\Message;
 use Framadate\Security\PasswordHasher;
 use Framadate\Services\AdminPollService;
@@ -261,6 +262,8 @@ if (!empty($_POST['save'])) { // Save edition of an old vote
             $message = new Message('danger', __('Error', 'Poll has been updated before you vote'));
         } catch (ConcurrentVoteException $cve) {
             $message = new Message('danger', __('Error', "Your vote wasn't counted, because someone voted in the meantime and it conflicted with your choices and the poll conditions. Please retry."));
+        } catch (NoChoiceSelectedException $ncse) {
+            $message = new Message('danger', __('Error', 'Make at least a choice.'));
         }
     }
 } elseif (isset($_POST['save'])) { // Add a new vote
@@ -291,6 +294,9 @@ if (!empty($_POST['save'])) { // Save edition of an old vote
             $message = new Message('danger', __('Error', 'Poll has been updated before you vote'));
         } catch (ConcurrentVoteException $cve) {
             $message = new Message('danger', __('Error', "Your vote wasn't counted, because someone voted in the meantime and it conflicted with your choices and the poll conditions. Please retry."));
+        } catch (NoChoiceSelectedException $ncse) {
+            $message = new Message('danger', __('Error', 'Make at least a choice.'));
+            $selectedNewVotes = $choices;
         }
     }
 }
