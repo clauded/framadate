@@ -66,14 +66,25 @@ $(document).ready(function () {
         // If both are valid, allow normal submission
     });
 
-    $('.choice input:radio').on('mousedown', function(){
-      $(this).data('wasChecked', $(this).is(':checked'));
-    });
-    $('.choice input:radio').on('click', function(){
-      if ($(this).data('wasChecked')) {
-        // The user clicked a choice that was already selected: unselect it
-        // by switching to the hidden "reset" radio in the same group.
-        $(this).closest('ul').find('input[id^="r-choice-"]').prop('checked', true).trigger('change');
+    // Choice radios are visually hidden (see .yes/.ifneedbe/.no input in
+    // style.css), so users only ever physically click the associated
+    // <label>. Note: these ids (y-choice-N, r-choice-N, ...) are NOT unique
+    // across the page - the counter resets to 0 for every voter row - so the
+    // input is always resolved via DOM position (.prev(), since it's always
+    // the label's immediately preceding sibling within the same <li>)
+    // rather than via the "for" attribute / a #id lookup, which would
+    // silently target the wrong row. preventDefault() stops the browser's
+    // own native label-click behavior (which uses the "for" attribute and
+    // would be subject to that same wrong-row risk) so this code is always
+    // the one deciding the resulting state.
+    $('.choice label').on('click', function(e){
+      e.preventDefault();
+      var $input = $(this).prev('input[type="radio"]');
+      if ($input.is(':checked')) {
+        // Already selected: unselect it via the hidden "reset" radio.
+        $input.closest('ul').find('input[id^="r-choice-"]').prop('checked', true).trigger('change');
+      } else {
+        $input.prop('checked', true).trigger('change');
       }
     });
 
