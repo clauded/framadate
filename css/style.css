@@ -439,6 +439,13 @@ span.edit-username-left {
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
 }
 
+.yes label .glyphicon {
+    visibility: hidden;
+}
+.yes input[type="radio"]:checked + label .glyphicon {
+    visibility: visible;
+}
+
 .ifneedbe input[type="radio"]:checked + label { /* =.btn-warning.active */
     color: #fff;
     background-color: #CF9800;

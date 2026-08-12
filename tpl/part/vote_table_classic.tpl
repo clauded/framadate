@@ -116,8 +116,8 @@
                                        		<i class="glyphicon glyphicon-ok"></i><span class="sr-only">{__('Generic', 'Yes')}</span>
                                     	</label>
                                 	</li>
-    							    {* Hide if maximum votes per choice reached *}
-    	    						{if $poll->value_max eq NULL || $best_choices['y'][$id] lt $poll->value_max}{$class = 'no'}{else}{$class = 'hidden'}{/if}
+    							    {* No choice hidden: unselecting a choice (clicking Yes again) now achieves the same "not voting yes" result *}
+    	    						{$class = 'no hidden'}
                                     <li class="{$class}">
                                    	 	{* the no choice on new entry will not be saved *}
                                         <input type="radio" id="n-choice-{$id}" name="choices[{$id}]" value=" "
@@ -174,8 +174,8 @@
                                         <i class="glyphicon glyphicon-ok"></i><span class="sr-only">{__('Generic', 'Yes')}</span>
                                     </label>
                                 </li>
-    							{* Hide if maximum votes per choice reached *}
-	    						{if $poll->value_max eq NULL || $best_choices['y'][$id] lt $poll->value_max || $choice=='2'}{$class = 'no'}{else}{$class = 'hidden'}{/if}
+    							{* No choice hidden: unselecting a choice (clicking Yes again) now achieves the same "not voting yes" result *}
+	    						{$class = 'no hidden'}
                                 <li class="{$class}">
                                     <input type="radio" id="n-choice-{$id}" name="choices[{$id}]" value="0" {if $choice=='0'}checked {/if}/>
                                     <label class="btn btn-default btn-xs" for="n-choice-{$id}" title="{__('Poll results', 'Vote no for')|html} {$slots[$id]->title|html}">

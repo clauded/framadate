@@ -132,7 +132,7 @@
                                     </li>
                                     {/if}
 
-                                    <li class="no">
+                                    <li class="no hidden">
                                         <input type="radio" id="n-choice-{$i}" name="choices[{$i}]" value="0"
                                         	{(!isset($selectedNewVotes[$i]) || ("0" !== $selectedNewVotes[$i])) ? "" : " checked"}
                                         />
@@ -221,7 +221,7 @@
                                         (<i class="glyphicon glyphicon-ok"></i>)<span class="sr-only">{__('Generic', 'Ifneedbe')}</span>
                                     </label>
                                 </li>
-                                <li class="no">
+                                <li class="no hidden">
                                     <input type="radio" id="n-choice-{$k}" name="choices[{$k}]" value="0" {if $choice=='0'}checked {/if}/>
                                     <label class="btn btn-default btn-xs" for="n-choice-{$k}" title="{__('Poll results', 'Vote no for')|html} {$slots_raw[$k]}">
                                         <i class="glyphicon glyphicon-ban-circle"></i><span class="sr-only">{__('Generic', 'No')}</span>
