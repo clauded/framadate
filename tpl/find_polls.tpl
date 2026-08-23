@@ -1,9 +1,19 @@
 {extends file='page.tpl'}
 
 {block name=main}
-    {if !empty($message)}
-        <div class="alert alert-dismissible alert-{$message->type|html}" role="alert">{$message->message|html}{if $message->link != null}<br/><a href="{$message->link}">{$message->link}</a>{/if}<button type="button" class="close" data-dismiss="alert" aria-label="{__('Generic', 'Close')}"><span aria-hidden="true">&times;</span></button></div>
+
+{if !empty($message)}
+    <div class="alert alert-dismissible alert-{$message->type|html}" role="alert">
+    {$message->message|html}
+    {if $message->link != null}
+        <br/>
+        <a href="{$message->link}">{$message->link}</a>
     {/if}
+        <button type="button" class="close" data-dismiss="alert" aria-label="{__('Generic', 'Close')}">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{/if}
     <form method="post">
         <div class="row">
             <div class="col-md-6 col-md-offset-3 text-center">

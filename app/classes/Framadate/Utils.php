@@ -58,13 +58,14 @@ class Utils {
 
         echo '
         <link rel="stylesheet" href="' . self::get_server_name() . 'css/bootstrap.min.css" />
-        <link rel="stylesheet" href="' . self::get_server_name() . 'css/datepicker3.css" />
+        <link rel="stylesheet" href="' . self::get_server_name() . 'css/bootstrap-datepicker3.min.css" />
         <link rel="stylesheet" href="' . self::get_server_name() . 'css/style.css" />
         <link rel="stylesheet" href="' . self::get_server_name() . 'css/frama.css" />
+        <link rel="stylesheet" href="' . self::get_server_name() . 'css/set.css" />
         <link rel="stylesheet" href="' . self::get_server_name() . 'css/print.css" media="print" />
-        <script src="' . self::get_server_name() . 'js/jquery-3.6.0.min.js"></script>
+        <script src="' . self::get_server_name() . 'js/jquery-3.7.1.min.js"></script>
         <script src="' . self::get_server_name() . 'js/bootstrap.min.js"></script>
-        <script src="' . self::get_server_name() . 'js/bootstrap-datepicker.js"></script>';
+        <script src="' . self::get_server_name() . 'js/bootstrap-datepicker.min.js"></script>';
         if ('en' !== $locale) {
         	   echo '
         <script src="' . self::get_server_name() . 'js/locales/bootstrap-datepicker.' . $locale . '.js"></script>';

@@ -13,7 +13,7 @@
 {block name="main"}
     <form name="formulaire" method="POST" class="form-horizontal">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-12 col-md-offset-0">
                 <div class="well summary">
                     <h4>{__('Step 3', 'List of your choices')}</h4>
                     {$summary}
@@ -34,9 +34,9 @@
                 </div>
                 <div class="alert alert-warning">
                     <p>{__('Step 3', 'Once you have confirmed the creation of your poll, you will be automatically redirected on the administration page of your poll.')}</p>
-                    {if $use_smtp}
-                        <p>{__('Step 3', 'Then, you will receive quickly two emails: one contening the link of your poll for sending it to the voters, the other contening the link to the administration page of your poll.')}</p>
-                    {/if}
+{if $use_smtp}
+                    <p>{__('Step 3', 'Then, you will receive quickly two emails: one contening the link of your poll for sending it to the voters, the other contening the link to the administration page of your poll.')}</p>
+{/if}
                 </div>
                 <p class="text-right">
                     <button class="btn btn-default" onclick="javascript:window.history.back();" title="{__('Step 3', 'Back to step 2')}">{__('Generic', 'Back')}</button>

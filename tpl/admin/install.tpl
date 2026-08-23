@@ -5,12 +5,12 @@
     <div class="col-md-12">
         <form method="POST">
 
-            {if $error}
-                <div id="result" class="alert alert-danger">
-                    <h4>{$error}</h4>
-                    <small>{$error_details}</small>
-                </div>
-            {/if}
+{if $error}
+            <div id="result" class="alert alert-danger">
+                <h4>{$error}</h4>
+                <small>{$error_details}</small>
+            </div>
+{/if}
 
             <fieldset>
                 <legend>{__('Installation', 'General')}</legend>

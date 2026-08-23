@@ -466,13 +466,24 @@ $slots = $pollService->allSlotsByPoll($poll);
 $votes = $pollService->allVotesByPollId($poll_id);
 $comments = $pollService->allCommentsByPollId($poll_id);
 
+
+
 // Assign data to template
 $smarty->assign('poll_id', $poll_id);
 $smarty->assign('admin_poll_id', $admin_poll_id);
 $smarty->assign('poll', $poll);
 $smarty->assign('title', __('Generic', 'Poll') . ' - ' . $poll->title);
+//$smarty->assign('expired', strtotime($poll->end_date) < time());
+//$smarty->assign('deletion_date', strtotime($poll->end_date) + PURGE_DELAY * 86400);
+// Si la date du sondage est invalide ou nulle, on lui affecte une vraie date par défaut
+$duration = $config['default_poll_duration'] ?? 30;
+if (empty($poll->end_date)) {
+    // Calcule la date de fin par défaut (ex: aujourd'hui + la durée configurée)
+    $poll->end_date = date('Y-m-d H:i:s', strtotime('+' . $duration . ' days'));
+}
 $smarty->assign('expired', strtotime($poll->end_date) < time());
 $smarty->assign('deletion_date', strtotime($poll->end_date) + PURGE_DELAY * 86400);
+//
 $smarty->assign('slots', $poll->format === 'D' ? $pollService->splitSlots($slots) : $slots);
 $smarty->assign('slots_hash', $pollService->hashSlots($slots));
 $smarty->assign('votes', $pollService->splitVotes($votes));
