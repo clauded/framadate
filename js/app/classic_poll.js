@@ -46,21 +46,21 @@
     $('#add-a-choice').on('click', function () {
         var nb_choices = $('.choice-field').length;
         var last_choice = $('.choice-field:last');
-
-        var new_choice = last_choice.html();
+        var new_choice = last_choice.clone();
 
         // label
         var last_choice_label = last_choice.children('label').text();
         var choice_text = last_choice_label.substring(0, last_choice_label.indexOf(' '));
 
         // for and id
-        var re_id_choice = new RegExp('"choice' + (nb_choices - 1) + '"', 'g');
+        new_choice.children('label')
+            .attr('for', 'choice' + nb_choices)
+            .text(choice_text + ' ' + (nb_choices + 1));
+        new_choice.find('input')
+            .attr('id', 'choice' + nb_choices)
+            .val('');
 
-        var new_choice_html = new_choice.replace(re_id_choice, '"choice' + nb_choices + '"')
-            .replace(last_choice_label, choice_text + ' ' + (nb_choices + 1))
-            .replace(/value="(.*?)"/g, 'value=""');
-
-        last_choice.after('<div class="form-group choice-field">' + new_choice_html + '</div>');
+        last_choice.after(new_choice);
         $('#choice' + nb_choices).focus();
         $('#remove-a-choice').removeClass('disabled');
 
