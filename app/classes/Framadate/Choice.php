@@ -44,7 +44,7 @@ class Choice
 
     public function getName(): string
     {
-        return $this->name;
+        return (string)$this->name;
     }
 
     public function getSlots(): array
@@ -54,6 +54,6 @@ class Choice
 
     public static function compare(Choice $a, Choice $b): int
     {
-        return strcmp($a->name, $b->name);
+        return strcmp((string)$a->name, (string)$b->name);
     }
 }

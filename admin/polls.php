@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 /**
  * This software is governed by the CeCILL-B license. If a copy of this license
  * is not distributed with this file, you can obtain one at
@@ -17,6 +16,7 @@ declare(strict_types=1);
  * Auteurs de STUdS (projet initial) : Guilhem BORGHESI (borghesi@unistra.fr) et Raphaël DROZ
  * Auteurs de Framadate/OpenSondage : Framasoft (https://github.com/framasoft)
  */
+declare(strict_types=1);
 
 use Framadate\Services\AdminPollService;
 use Framadate\Services\LogService;
@@ -29,8 +29,7 @@ include_once __DIR__ . '/../bandeaux.php';
 
 const POLLS_PER_PAGE = 30;
 
-/* Functions */
-
+// Functions
 function buildSearchQuery($search) {
     $query = '';
     foreach ($search as $key => $value) {
@@ -39,25 +38,18 @@ function buildSearchQuery($search) {
     return substr($query, 0, -1);
 }
 
-/* --------- */
-
-/* Variables */
-/* --------- */
-
+// Variables
 $polls = null;
 $poll_to_delete = null;
 
-/* Services */
-/*----------*/
-
+// Services
 $logService = new LogService();
 $pollService = new PollService($logService);
 $adminPollService = new AdminPollService($connect, $pollService, $logService);
 $superAdminService = new SuperAdminService();
 $securityService = new SecurityService();
 
-/* GET */
-/*-----*/
+// GET
 $page = (int)filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
 $page = ($page >= 1) ? $page : 1;
 
@@ -67,9 +59,7 @@ $search['title'] = filter_input(INPUT_GET, 'title', FILTER_SANITIZE_STRING);
 $search['name'] = filter_input(INPUT_GET, 'name', FILTER_SANITIZE_STRING);
 $search['mail'] = filter_input(INPUT_GET, 'mail', FILTER_SANITIZE_STRING);
 
-/* PAGE */
-/* ---- */
-
+// PAGE 
 if (!empty($_POST['delete_poll']) && $securityService->checkCsrf('admin', $_POST['csrf'])) {
     $delete_id = filter_input(INPUT_POST, 'delete_poll', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
     $poll_to_delete = $delete_id ? $pollService->findById($delete_id) : null;
@@ -98,7 +88,5 @@ $smarty->assign('poll_to_delete', $poll_to_delete);
 $smarty->assign('crsf', $securityService->getToken('admin'));
 $smarty->assign('search', $search);
 $smarty->assign('search_query', buildSearchQuery($search));
-
 $smarty->assign('title', __('Admin', 'Polls'));
-
 $smarty->display('admin/polls.tpl');

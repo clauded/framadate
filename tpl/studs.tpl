@@ -25,7 +25,6 @@
 *}
 
 {/block}
-
 {block name="site_header"}{/block}
 
 {block name=main}

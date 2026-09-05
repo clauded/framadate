@@ -1,10 +1,12 @@
 {extends 'page.tpl'}
 
 {block 'main'}
+    {block 'admin_main'}{/block}
     <div class="row">
-        <div class="col-xs-12 lead">
-            <a class="btn btn-default" href="{'admin'|resource}">{__('Admin', 'Back to administration')}</a>
+        <div class="text-center">
+            <a class="btn btn-primary" role="button" href="https://sportentete.qc.ca/framadate/admin/">
+                <span class=" glyphicon glyphicon-arrow-left" aria-hidden="true"></span> {__('Admin', 'Back to administration')}
+            </a>
         </div>
     </div>
-    {block 'admin_main'}{/block}
 {/block}

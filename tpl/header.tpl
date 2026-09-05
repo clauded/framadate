@@ -1,4 +1,4 @@
-<header class="clearfix">
+<header class="frama-header clearfix">
 
 {if count($langs)>1}
     <form method="post" class="hidden-print">
@@ -14,15 +14,12 @@
         </div>
     </form>
 {/if}
-    <h1 class="row col-xs-12 col-sm-10">
-        <a href="{$SERVER_URL|html}" title="{__('Generic', 'Home')} - {$APPLICATION_NAME|html}" >
-            <img src="{$TITLE_IMAGE|resource}" alt="{$APPLICATION_NAME|html}" class="img-responsive"/>
-        </a>
-    </h1>
+    <span class="frama-set row col-xs-12 col-sm-10">
+        Framadate SET
+    </span>
 {if !empty($title)}
-    <h2 class="lead col-xs-12"><i>{$title|html}</i></h2>
+    <span class="frama-lead col-xs-12">{$title|html}</span>
 {/if}
-    <div class="trait col-xs-12" role="presentation"></div>
 </header>
 
 <main>

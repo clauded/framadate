@@ -22,8 +22,8 @@
                     <p>{__('Step 3', 'Your poll will automatically be archived')} {$default_poll_duration} {__('Generic', 'days')} {__('Step 3', 'after the last date of your poll.')}
                         <br />{__('Step 3', 'You can set a closer archiving date for it.')}</p>
                     <div class="form-group">
-                        <label for="enddate" class="col-sm-5 control-label">{__('Step 3', 'Archiving date:')}</label>
-                        <div class="col-sm-6">
+                        <label for="enddate" class="col-sm-3 control-label">{__('Step 3', 'Archiving date:')}</label>
+                        <div class="col-sm-3">
                             <div class="input-group date">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar text-info"></i></span>
                                 <input type="text" class="form-control" id="enddate" data-date-format="{__('Date', 'dd/mm/yyyy')}" aria-describedby="dateformat" name="enddate" value="{$end_date_str}" size="10" maxlength="10" placeholder="{__('Date', 'dd/mm/yyyy')}" />
@@ -38,9 +38,11 @@
                     <p>{__('Step 3', 'Then, you will receive quickly two emails: one contening the link of your poll for sending it to the voters, the other contening the link to the administration page of your poll.')}</p>
 {/if}
                 </div>
-                <p class="text-right">
-                    <button class="btn btn-default" onclick="javascript:window.history.back();" title="{__('Step 3', 'Back to step 2')}">{__('Generic', 'Back')}</button>
-                    <button name="confirmation" value="confirmation" type="submit" class="btn btn-success">{__('Step 3', 'Create the poll')}</button>
+                <p class="text-center">
+                    <button class="btn btn-primary" onclick="javascript:window.history.back();" title="{__('Step 3', 'Back to step 2')}">
+                        <span class=" glyphicon glyphicon-arrow-left" aria-hidden="true"></span> {__('Generic', 'Back')}
+                    </button>
+                    <button name="confirmation" value="confirmation" type="submit" class="btn btn-success"><span class=" glyphicon glyphicon-save" aria-hidden="true"></span> {__('Step 3', 'Create the poll')}</button>
                 </p>
             </div>
         </div>

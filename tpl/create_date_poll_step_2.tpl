@@ -14,14 +14,14 @@
 {block name=main}
     <form name="formulaire" method="POST" class="form-horizontal">
         <div class="row" id="selected-days">
-            <div class="col-md-10 col-md-offset-1">
+            <div class="col-md-12 col-md-offset-0">
                 <h3>{__('Step 2 date', 'Choose the dates of your poll')}</h3>
 
-                {if $error != null}
+{if $error != null}
                 <div class="alert alert-danger">
                     <p>{$error}</p>
                 </div>
-                {/if}
+{/if}
 
                 <div class="alert alert-info">
                     <p>{__('Step 2 date', 'To schedule an event you need to propose at least two choices (two hours for one day or two days).')}</p>
@@ -37,70 +37,70 @@
                 </div>
 
                 <div id="days_container">
-                    {foreach $choices as $i=>$choice}
-                        {if $choice->getName()}
-                            {$day_value = $choice->getName()|intl_date_format:$date_format['txt_date']}
-                        {else}
-                            {$day_value = ''}
-                        {/if}
-                        <fieldset>
-                            <div class="form-group">
-                                <legend>
-                                    <label class="sr-only" for="day{$i}">{__('Generic', 'Day')} {$i+1}</label>
-
-                                    <div class="col-xs-10 col-sm-11">
-                                        <div class="input-group date">
-                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar text-info"></i></span>
-                                            <input type="text" class="form-control" id="day{$i}" title="{__('Generic', 'Day')} {$i+1}"
-                                                   data-date-format="{__('Date', 'dd/mm/yyyy')}" aria-describedby="dateformat{$i}" name="days[]" value="{$day_value}"
-                                                   size="10" maxlength="10" placeholder="{__('Date', 'dd/mm/yyyy')}" autocomplete="off"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-2 col-sm-1">
-                                        <button type="button" title="{__('Step 2 date', 'Remove this day')}" class="remove-day btn btn-sm btn-link">
-                                            <span class="glyphicon glyphicon-remove text-danger"></span>
-                                            <span class="sr-only">{__('Step 2 date', 'Remove this day')}</span>
-                                        </button>
-                                    </div>
-
-                                    <span id="dateformat{$i}" class="sr-only">({__('Date', 'dd/mm/yyyy')})</span>
-                                </legend>
-
-                                {foreach $choice->getSlots() as $j=>$slot}
-                                    <div class="col-sm-2">
-                                        <label for="d{$i}-h{$j}" class="sr-only control-label">{__('Generic', 'Time')} {$j+1}</label>
-                                        <input type="text" class="form-control hours" title="{$day_value} - {__('Generic', 'Time')} {$j+1}"
-                                               placeholder="{__('Generic', 'Time')} {$j+1}" id="d{$i}-h{$j}" name="horaires{$i}[]" value="{$slot|html_special_chars}"/>
-                                    </div>
-                                {/foreach}
-
-                                <div class="col-sm-2">
-                                    <div class="btn-group btn-group-xs mt-5">
-                                        <button type="button" title="{__('Step 2 date', 'Remove an hour')}" class="remove-an-hour btn btn-default">
-                                            <span class="glyphicon glyphicon-minus text-info"></span>
-                                            <span class="sr-only">{__('Step 2 date', 'Remove an hour')}</span>
-                                        </button>
-                                        <button type="button" title="{__('Step 2 date', 'Add an hour')}" class="add-an-hour btn btn-default">
-                                            <span class="glyphicon glyphicon-plus text-success"></span>
-                                            <span class="sr-only">{__('Step 2 date', 'Add an hour')}</span>
-                                        </button>
+{foreach $choices as $i=>$choice}
+    {if $choice->getName()}
+        {$day_value = $choice->getName()|intl_date_format:$date_format['txt_date']}
+    {else}
+        {$day_value = ''}
+    {/if}
+                    <fieldset>
+                        <div class="form-group">
+                            <legend>
+                                <label class="sr-only" for="day{$i}">{__('Generic', 'Day')} {$i+1}</label>
+                                <div class="col-xs-2 col-sm-2 col-sm-offset-1">
+                                    <div class="input-group date">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar text-info"></i></span>
+                                        <input type="text" class="form-control" id="day{$i}" title="{__('Generic', 'Day')} {$i+1}"
+                                            data-date-format="{__('Date', 'dd/mm/yyyy')}" aria-describedby="dateformat{$i}" name="days[]" value="{$day_value}"
+                                            size="10" maxlength="10" placeholder="{__('Date', 'dd/mm/yyyy')}" autocomplete="off"/>
                                     </div>
                                 </div>
+                                <div class="col-xs-2 col-sm-1">
+                                    <button type="button" title="{__('Step 2 date', 'Remove this day')}" class="remove-day btn btn-sm btn-link">
+                                        <span class="glyphicon glyphicon-remove text-danger"></span>
+                                        <span class="sr-only">{__('Step 2 date', 'Remove this day')}</span>
+                                    </button>
+                                </div>
+
+                                <span id="dateformat{$i}" class="sr-only">({__('Date', 'dd/mm/yyyy')})</span>
+                            </legend>
+
+    {foreach $choice->getSlots() as $j=>$slot}
+                            <div class="col-sm-2 col-sm-offset-1">
+                                <label for="d{$i}-h{$j}" class="sr-only control-label">{__('Generic', 'Time')} {$j+1}</label>
+                                <input type="text" class="form-control hours" title="{$day_value} - {__('Generic', 'Time')} {$j+1}"
+                                    placeholder="{__('Generic', 'Time')} {$j+1}" id="d{$i}-h{$j}" name="horaires{$i}[]" value="{$slot|html_special_chars}"/>
                             </div>
-                        </fieldset>
-                    {/foreach}
+    {/foreach}
+                            <div class="col-sm-2">
+                                <div class="btn-group btn-group-xs">
+                                    <button type="button" title="{__('Step 2 date', 'Remove an hour')}" class="remove-an-hour btn btn-default">
+                                        <span class="glyphicon glyphicon-minus text-info"></span>
+                                        <span class="sr-only">{__('Step 2 date', 'Remove an hour')}</span>
+                                    </button>
+                                    <button type="button" title="{__('Step 2 date', 'Add an hour')}" class="add-an-hour btn btn-default">
+                                        <span class="glyphicon glyphicon-plus text-success"></span>
+                                        <span class="sr-only">{__('Step 2 date', 'Add an hour')}</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+{/foreach}
                 </div>
 
-
-                <div class="col-md-4">
-                    <button type="button" id="copyhours" class="btn btn-default disabled" title="{__('Step 2 date', 'Copy hours of the first day')}"><span
-                                class="glyphicon glyphicon-sort-by-attributes-alt text-info"></span><span
-                                class="sr-only">{__('Step 2 date', 'Copy hours of the first day')}</span></button>
+                <div class="col-md-4 col-md-offset-1">
+                    <button type="button" id="copyhours" class="btn btn-default disabled" title="{__('Step 2 date', 'Copy hours of the first day')}">
+                        <span class="glyphicon glyphicon-sort-by-attributes-alt text-info"></span>
+                        <span class="sr-only">{__('Step 2 date', 'Copy hours of the first day')}</span>
+                    </button>
                     <div class="btn-group btn-group">
-                        <button type="button" id="remove-a-day" class="btn btn-default disabled" title="{__('Step 2 date', 'Remove a day')}"><span
-                                    class="glyphicon glyphicon-minus text-info"></span><span class="sr-only">{__('Step 2 date', 'Remove a day')}</span></button>
-                        <button type="button" id="add-a-day" class="btn btn-default" title="{__('Step 2 date', 'Add a day')}"><span
-                                    class="glyphicon glyphicon-plus text-success"></span><span class="sr-only">{__('Step 2 date', 'Add a day')}</span></button>
+                        <button type="button" id="remove-a-day" class="btn btn-default disabled" title="{__('Step 2 date', 'Remove a day')}">
+                            <span class="glyphicon glyphicon-minus text-info"></span><span class="sr-only">{__('Step 2 date', 'Remove a day')}</span>
+                        </button>
+                        <button type="button" id="add-a-day" class="btn btn-default" title="{__('Step 2 date', 'Add a day')}">
+                            <span class="glyphicon glyphicon-plus text-success"></span><span class="sr-only">{__('Step 2 date', 'Add a day')}</span>
+                        </button>
                     </div>
                     <a href="" data-toggle="modal" data-target="#add_days" class="btn btn-default" title="{__('Date', 'Add range dates')}">
                         <span class="glyphicon glyphicon-plus text-success"></span>
@@ -108,7 +108,8 @@
                         <span class="sr-only">{__('Date', 'Add range dates')}</span>
                     </a>
                 </div>
-                <div class="col-md-8 text-right">
+                <br/><br/>
+                <div class="col-md-10 col-md-offset-1">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                             <span class="glyphicon glyphicon-remove text-danger"></span>
@@ -119,10 +120,14 @@
                             <li><a id="resethours" href="javascript:void(0)">{__('Step 2 date', 'Remove all hours')}</a></li>
                         </ul>
                     </div>
-                    <a class="btn btn-default" href="{$SERVER_URL}create_poll.php?type=date"
-                       title="{__('Step 2', 'Back to step 1')}">{__('Generic', 'Back')}</a>
-                    <button name="choixheures" value="{__('Generic', 'Next')}" type="submit" class="btn btn-success disabled"
-                            title="{__('Step 2', 'Go to step 3')}">{__('Generic', 'Next')}</button>
+                </div>
+                <div class="text-center col-md-12">
+                    <a class="btn btn-primary" href="{$SERVER_URL}create_poll.php?type=date" title="{__('Step 2', 'Back to step 1')}">
+                        <span class=" glyphicon glyphicon-arrow-left" aria-hidden="true"></span> {__('Generic', 'Back')}
+                    </a>
+                    <button name="choixheures" value="{__('Generic', 'Next')}" type="submit" class="btn btn-success" title="{__('Step 2', 'Go to step 3')}">
+                        <span class=" glyphicon glyphicon-arrow-right" aria-hidden="true"></span> {__('Generic', 'Next')}
+                    </button>
                 </div>
             </div>
         </div>
@@ -139,17 +144,15 @@
                 </div>
                 <div class="modal-body row">
                     <div class="col-xs-12">
-                        <div class="alert alert-info">
-                            {__('Date', 'Max dates count')}
-                        </div>
+                        <div class="alert alert-info">{__('Date', 'Max dates count')}</div>
                     </div>
                     <div class="col-xs-12">
                         <label for="range_start">{__('Date', 'Start date')}</label>
                         <div class="input-group date">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar text-info"></i></span>
                             <input type="text" class="form-control" id="range_start"
-                                   data-date-format="{__('Date', 'dd/mm/yyyy')}" size="10" maxlength="10"
-                                   placeholder="{__('Date', 'dd/mm/yyyy')}"/>
+                                data-date-format="{__('Date', 'dd/mm/yyyy')}" size="10" maxlength="10"
+                                placeholder="{__('Date', 'dd/mm/yyyy')}"/>
                         </div>
                     </div>
                     <div class="col-xs-12">
@@ -157,8 +160,8 @@
                         <div class="input-group date">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar text-info"></i></span>
                             <input type="text" class="form-control" id="range_end"
-                                   data-date-format="{__('Date', 'dd/mm/yyyy')}" size="10" maxlength="10"
-                                   placeholder="{__('Date', 'dd/mm/yyyy')}"/>
+                               data-date-format="{__('Date', 'dd/mm/yyyy')}" size="10" maxlength="10"
+                               placeholder="{__('Date', 'dd/mm/yyyy')}"/>
                         </div>
                     </div>
                 </div>

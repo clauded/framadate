@@ -17,14 +17,11 @@
  */
 
 $(document).ready(function () {
-    /**
-     * Error check when submitting form
-     */
+    // Error check when submitting form
     $("#formulaire").submit(function (event) {
         var isHidden = $("#hidden").prop("checked");
         var isOptionAllUserCanModifyEverything =
             $("#editableByAll").is(":checked");
-
         if (isHidden && isOptionAllUserCanModifyEverything) {
             event.preventDefault();
             $("#hiddenWithBadEditionModeError").removeClass("hidden");
@@ -33,9 +30,7 @@ $(document).ready(function () {
         }
     });
 
-    /**
-     * Enable/Disable custom url options
-     */
+    // Enable/Disable custom url options
     $("#use_customized_url").change(function () {
         if ($(this).prop("checked")) {
             $("#customized_url_options").removeClass("hidden");
@@ -44,22 +39,18 @@ $(document).ready(function () {
         }
     });
 
-    /**
-     * Enable/Disable ValueMax options
-     */
+    // Enable/Disable ValueMax options
     const useValueMax = document.querySelector("#use_ValueMax");
-    useValueMax.addEventListener("change", function () {
-        const valueMaxOptions = document.querySelector("#value_max_options");
-        if (useValueMax.checked) {
-            valueMaxOptions.classList.remove("hidden");
-        } else {
-            valueMaxOptions.classList.add("hidden");
-        }
-    });
+    if (useValueMax) {
+    	useValueMax.addEventListener("change", function () {
+    		const valueMaxOptions = document.querySelector("#value_max_options");
+    		if (valueMaxOptions) {
+    			valueMaxOptions.classList.toggle("hidden", !useValueMax.checked);
+    		}
+    	});
+    }
 
-    /**
-     * Hide/Show password options
-     */
+    // Hide/Show password options
     $("#use_password").change(function () {
         if ($(this).prop("checked")) {
             $("#password_options").removeClass("hidden");
@@ -71,13 +62,11 @@ $(document).ready(function () {
     // Check cookies are enabled too
     var cookieEnabled = function () {
         var cookieEnabled = navigator.cookieEnabled;
-
         // if not IE4+ nor NS6+
         if (!cookieEnabled && typeof navigator.cookieEnabled === "undefined") {
             document.cookie = "testcookie";
             cookieEnabled = document.cookie.indexOf("testcookie") != -1;
         }
-
         return cookieEnabled;
     };
 
@@ -89,12 +78,20 @@ $(document).ready(function () {
         document.getElementById("cookie-warning").setAttribute("style", "");
     }
 
-    var wrapper = new MDEWrapper(
-        $("#poll_comments")[0],
-        $("#rich-editor-button"),
-        $("#simple-editor-button")
-    );
-    if ($("#rich-editor-button").hasClass("active")) {
-        wrapper.enable();
+    if (typeof MDEWrapper !== "undefined") {
+        const $pollComments = $("#poll_comments");
+        const $richButton = $("#rich-editor-button");
+        const $simpleButton = $("#simple-editor-button");
+        if ($pollComments.length && $richButton.length && $simpleButton.length) {
+            var wrapper = new MDEWrapper(
+                $pollComments[0], // Plain DOM element (as required by MDEWrapper)
+                $richButton,      // Pass jQuery object if MDEWrapper uses .on()
+                $simpleButton     // Pass jQuery object
+            );
+            if ($richButton.hasClass("active")) {
+                wrapper.enable();
+            }
+        }
     }
+    
 });

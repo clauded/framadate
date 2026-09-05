@@ -52,18 +52,13 @@ if (is_file(CONF_FILENAME)) {
         $error = $e->getMessage();
     }
 } else {
-    define('NOMAPPLICATION', 'Framadate');
+    define('NOMAPPLICATION', 'Framadate SET');
     define('DEFAULT_LANGUAGE', 'fr');
     define('IMAGE_TITRE', 'images/logo-framadate.png');
     define('LOG_FILE', 'admin/stdout.log');
     $ALLOWED_LANGUAGES = [
         'fr' => 'Français',
-        'en' => 'English',
-        'es' => 'Español',
-        'de' => 'Deutsch',
-        'it' => 'Italiano',
-        'br' => 'Brezhoneg',
-        'ca' => 'Català'
+        'en' => 'English'
     ];
 }
 

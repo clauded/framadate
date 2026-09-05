@@ -19,17 +19,14 @@
 $(document).ready(function () {
 
     // Global variables
-
     var $selected_days = $('#selected-days');
     var $removeaday = $('#remove-a-day');
     var $copyhours = $('#copyhours');
     var $next = $('button[name="choixheures"]');
-
-
     var updateButtonState = function () {
         $removeaday.toggleClass('disabled', $selected_days.find('fieldset').length <= 1);
         $copyhours.toggleClass('disabled', !hasFirstDayFilledHours());
-        $next.toggleClass('disabled', countFilledDays() < 1)
+        //$next.toggleClass('disabled', countFilledDays() < 1);
     };
 
     // at least 1 day filled and you can submit
@@ -40,7 +37,7 @@ $(document).ready(function () {
     var countFilledDays = function () {
         var nb_filled_days = 0;
         $selected_days.find('fieldset legend input').each(function () {
-            if ($(this).val() != '') {
+            if ($(this).val() !== '') {
                 nb_filled_days++;
             }
         });
@@ -51,34 +48,27 @@ $(document).ready(function () {
     var hasFirstDayFilledHours = function () {
         var hasFilledHours = false;
         $selected_days.find('fieldset').first().find('.hours').each(function () {
-            if ($(this).val() != '') {
+            if ($(this).val() !== '') {
                 hasFilledHours = true;
             }
         });
         return hasFilledHours;
     };
 
-
-
-    /**
-     * Parse a string date
-     * @param dateStr The string date
-     * @param format The format PHP style (allowed: %Y, %m and %d)
-     */
+    // Parse a string date
+    // @param dateStr The string date
+    // @param format The format PHP style (allowed: %Y, %m and %d)
     var parseDate = function (dateStr, format) {
         var dtsplit = dateStr.split(/[\/ .:-]/);
         var dfsplit = format.split(/[\/ .:-]/);
-
         if (dfsplit.length != dtsplit.length) {
             return null;
         }
-
         // creates assoc array for date
         var df = [];
         for (var dc = 0; dc < dtsplit.length; dc++) {
             df[dfsplit[dc]] = dtsplit[dc];
         }
-
         // Build date
         return new Date(parseInt(df['%Y']), parseInt(df['%m']) - 1, parseInt(df['%d']), 0, 0, 0, 0);
     };
@@ -91,20 +81,18 @@ $(document).ready(function () {
     };
 
     function getLastDayNumber(last_day) {
-        if (last_day == null) {
+        if (last_day === null) {
             last_day = $selected_days.find('fieldset').filter(':last');
         }
-        return parseInt(/^d([0-9]+)-h[0-9]+$/.exec($(last_day).find('.hours').filter(':first').attr('id'))[1])
+        return parseInt(/^d([0-9]+)-h[0-9]+$/.exec($(last_day).find('.hours').filter(':first').attr('id'))[1]);
     }
 
     function newDateFields(dateStr) {
         var last_day = $selected_days.find('fieldset').filter(':last');
         var last_day_title = last_day.find('legend input').attr('title');
         var new_day_number = getLastDayNumber(last_day) + 1;
-
         var re_id_hours = new RegExp('"d' + (new_day_number - 1) + '-h', 'g');
         var re_name_hours = new RegExp('name="horaires' + (new_day_number - 1), 'g');
-
         var new_day_html = last_day.html().replace(re_id_hours, '"d' + new_day_number + '-h')
             .replace('id="day' + (new_day_number - 1) + '"', 'id="day' + new_day_number + '"')
             .replace('for="day' + (new_day_number - 1) + '"', 'for="day' + new_day_number + '"')
@@ -112,7 +100,6 @@ $(document).ready(function () {
             .replace(/value="(.*?)"/g, 'value=""')
             .replace(/hours" title="(.*?)"/g, 'hours" title="" p')
             .replace('title="' + last_day_title + '"', 'title="' + last_day_title.substring(0, last_day_title.indexOf(' ')) + ' ' + (new_day_number + 1) + '"');
-
         last_day
             .after('<fieldset>' + new_day_html + '</fieldset>')
             .next().find('legend input').val(dateStr);
@@ -124,13 +111,12 @@ $(document).ready(function () {
         var used = false;
         $selected_days.find('fieldset legend input').each(function () {
             if (!used) {
-                if ($(this).val() == '') {
+                if ($(this).val() === '') {
                     $(this).val(dateStr);
                     used = true;
                 }
             }
         });
-
         return used;
     };
 
@@ -153,7 +139,6 @@ $(document).ready(function () {
     });
 
     // Button "Remove all days"
-
     $('#resetdays').on('click', function () {
         $selected_days.find('fieldset:gt(0)').remove();
         $('#day0').focus();
@@ -161,22 +146,17 @@ $(document).ready(function () {
     });
 
     // Button "Copy hours of the first day"
-
     function addHour(last_hour, add_button) {
-
 		// for and id
 		var di_hj = last_hour.children('.hours').attr('id').split('-');
 		var di = parseInt(di_hj[0].replace('d', ''));
 		var hj = parseInt(di_hj[1].replace('h', ''));
-
 		// label, title and placeholder
 		var last_hour_label = last_hour.children('.hours').attr('placeholder');
 		var hour_text = last_hour_label.substring(0, last_hour_label.indexOf(' '));
-
 		// RegEx for multiple replace
 		var re_label = new RegExp(last_hour_label, 'g');
 		var re_id = new RegExp('"d' + di + '-h' + hj + '"', 'g');
-
 		// HTML code of the new hour
 		var new_hour_html =
 		    '<div class="col-sm-2">' +
@@ -184,7 +164,6 @@ $(document).ready(function () {
 		        .replace(re_id, '"d' + di + '-h' + (hj + 1) + '"')
 		        .replace(/value="(.*?)"/g, 'value=""') +
 		    '</div>';
-
 		// After 11 + button is disabled
 		if (hj < 99) {
 		    last_hour.after(new_hour_html);
@@ -200,7 +179,6 @@ $(document).ready(function () {
         var first_day_hours = $selected_days.find('fieldset:eq(0) .hours').map(function () {
             return $(this).val();
         });
-
         $selected_days.find('fieldset:gt(0)').each(function () {
 
             while($(this).find('.hours').length < first_day_hours.length){
@@ -208,7 +186,6 @@ $(document).ready(function () {
                 var add_button = $(this).find('.add-an-hour');
                 addHour(last_hour, add_button);
             }
-
             for (var i = 0; i < first_day_hours.length; i++) {
                 $(this).find('.hours:eq(' + i + ')').val(first_day_hours[i]); // fill hours
             }
@@ -216,21 +193,18 @@ $(document).ready(function () {
     });
 
     // Buttons "Add an hour"
-
     $(document).on('click', '.add-an-hour', function () {
         var last_hour = $(this).parent('div').parent('div').prev();
 	    addHour(last_hour, $(this));
     });
 
     // Buttons "Remove an hour"
-
     $(document).on('click', '.remove-an-hour', function () {
         var last_hour = $(this).parent('div').parent('div').prev();
         // for and id
         var di_hj = last_hour.children('.hours').attr('id').split('-');
         var di = parseInt(di_hj[0].replace('d', ''));
         var hj = parseInt(di_hj[1].replace('h', ''));
-
         // The first hour must not be removed
         if (hj > 0) {
             last_hour.remove();
@@ -244,22 +218,18 @@ $(document).ready(function () {
     });
 
     // Button "Add a day"
-
     $('#add-a-day').on('click', function () {
         newDateFields();
     });
 
     // Button "Remove a day"
-
     $removeaday.on('click', function () {
         $selected_days.find('fieldset:last').remove();
         $('#day' + (getLastDayNumber() - 1)).focus();
-
         updateButtonState();
     });
 
     // Button "Remove the current day"
-
     $(document).on('click', '.remove-day', function () {
         if ($('#days_container').find('fieldset').length > 1) {
             $(this).parents('fieldset').remove();
@@ -268,20 +238,16 @@ $(document).ready(function () {
     });
 
     // Add an range of dates
-
     $('#interval_add').on('click', function (ev) {
         var startDateField = $('#range_start');
         var endDateField = $('#range_end');
         var startDate = parseDate(startDateField.val(), window.date_formats.DATE);
         var endDate = parseDate(endDateField.val(), window.date_formats.DATE);
-
         // Clear error classes
         startDateField.parent().removeClass('has-error');
         endDateField.parent().removeClass('has-error');
-
         var maxDates = 123; // 123 = 4 months
         var tooMuchDates = endDate - startDate > maxDates * 86400 * 1000;
-
         if (startDate != null && endDate != null && !tooMuchDates) {
             if (startDate <= endDate) {
                 while (startDate <= endDate) {
@@ -291,19 +257,16 @@ $(document).ready(function () {
                     }
                     startDate.setDate(startDate.getDate() + 1);
                 }
-
                 // Hide modal
                 startDateField.val('');
                 endDateField.val('');
                 $('#add_days').modal('hide');
                 updateButtonState();
-
             } else {
                 setTimeout(function () {
                     startDateField.parent().addClass('has-error');
                     endDateField.parent().addClass('has-error');
                 }, 200);
-
             }
         } else {
             setTimeout(function () {
@@ -314,13 +277,10 @@ $(document).ready(function () {
                     endDateField.parent().addClass('has-error');
                 }
             }, 200);
-
         }
-
     });
 
     // Title update on hours and buttons -/+ hours
-
     $(document).on('change', '.input-group.date input', function () {
         // Define title on hours fields using the value of the new date
         $selected_days.find('.hours').each(function () {
@@ -329,7 +289,6 @@ $(document).ready(function () {
         // Define title on buttons that add/remove hours using the value of the new date
         $('#selected-days .add-an-hour, #selected-days .remove-an-hour').each(function () {
             var title = $(this).attr('title');
-
             if (title.indexOf('-') > 0) {
                 title = title.substring(title.indexOf('-') + 2, title.length);
             }
@@ -341,4 +300,5 @@ $(document).ready(function () {
         updateButtonState();
     });
     updateButtonState();
+    
 });

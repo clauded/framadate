@@ -28,7 +28,7 @@ function bandeau_titre($titre) {
     
     $img = ( IMAGE_TITRE ) ? '<img src="' . Utils::get_server_name() . IMAGE_TITRE . '" alt="' . NOMAPPLICATION . '" class="img-responsive">' : '';
     echo '
-    <header role="banner">';
+    <header role="banner" class="frama-header clearfix">';
     if (count($ALLOWED_LANGUAGES) > 1) {
         echo '
         <form method="post" class="hidden-print">
@@ -41,9 +41,10 @@ function bandeau_titre($titre) {
         </form>';
     }
     echo '
-        <h1><a href="' . Utils::get_server_name() . '" title="' . __('Generic', 'Home') . ' - ' . NOMAPPLICATION . '">' . $img . '</a></h1>
-        <!--<h2 class="lead"><i>' . $titre . '</i></h2>-->
-        <!--<hr class="trait" role="presentation" />-->
+        <span class="frama-set row col-xs-12 col-sm-10">
+            Framadate SET
+        </span>
+        <span class="frama-lead col-xs-12">' . $titre . '</span>
     </header>
     <main role="main">';
 

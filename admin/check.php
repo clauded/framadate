@@ -22,6 +22,7 @@ use Framadate\Message;
 use Framadate\Utils;
 
 const ROOT_DIR = __DIR__ . '/../';
+$NOMAPPLICATION = 'Framadate SET';
 
 /**
  * Checking for missing vendors.
@@ -42,14 +43,8 @@ if (session_id() === '') {
 $ALLOWED_LANGUAGES = [
     'fr' => 'Français',
     'en' => 'English',
-    'oc' => 'Occitan',
-    'es' => 'Español',
-    'de' => 'Deutsch',
-    'it' => 'Italiano',
-    'br' => 'Brezhoneg',
-    'ca' => 'Català',
 ];
-const DEFAULT_LANGUAGE = 'en';
+const DEFAULT_LANGUAGE = 'fr';
 require_once ROOT_DIR . 'app/inc/i18n.php';
 
 /**
@@ -59,8 +54,7 @@ require_once ROOT_DIR . 'app/inc/i18n.php';
  * @param Message $b
  * @return int
  */
-function compareCheckMessage(Message $a, Message $b): int
-{
+function compareCheckMessage(Message $a, Message $b): int {
     $values = [
         'danger' => 0,
         'warning' => 1,
@@ -180,26 +174,18 @@ usort($messages, 'compareCheckMessage');
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/frama.css">
+    <link rel="stylesheet" href="../css/set.css">
 </head>
 <body>
     <div class="container ombre">
-        <div class="row">
-            <form method="get" class="hidden-print">
-                <div class="input-group input-group-sm pull-right col-xs-12 col-sm-2">
-                    <select name="lang" class="form-control" title="<?=__('Language selector', 'Select the language')?>" >
-                        <?php foreach ($ALLOWED_LANGUAGES as $lang_key => $language) { ?>
-                        <option lang="fr" <?php if (str_starts_with($lang_key, $locale)) { echo 'selected';} ?> value="<?=substr($lang_key, 0, 2)?>"><?=$language?></option>
-                        <?php } ?>
-                    </select>
-                <span class="input-group-btn">
-                    <button type="submit" class="btn btn-default btn-sm" title="<?=__('Language selector', 'Select the language')?>">OK</button>
-                </span>
-                </div>
-            </form>
-        </div>
+        <header role="banner" class="frama-header clearfix">
+            <span class="frama-set row col-xs-12 col-sm-10">
+                Framadate SET
+            </span>
+            <span class="frama-lead col-xs-12"><?=__('Check', 'Installation checking') ?></span>
+        </header>
         <div class="row">
             <div class="col-md-12">
-                <h1><?=__('Check', 'Installation checking') ?></h1>
                 <div>
                     <div class="progress">
                         <div class="progress-bar  progress-bar-<?= $readyClass ?>" role="progressbar" aria-valuenow="<?= $readyPercentage ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?= $readyPercentage ?>%;">
@@ -208,31 +194,31 @@ usort($messages, 'compareCheckMessage');
                     </div>
                 </div>
                 <div>
-                    <?php
-                        foreach ($messages as $message) {
-                            echo '<div class="alert alert-' . $message->type . '" role="alert">';
-                            echo Utils::htmlEscape($message->message);
-                            echo '<span class="sr-only">' . $message->type . '</span>';
-                            echo '</div>';
-                         }
-                    ?>
+<?php
+foreach ($messages as $message) {
+                echo '
+                    <div class="alert alert-' . $message->type . '" role="alert">';
+                        echo Utils::htmlEscape($message->message);
+                    echo '
+                        <span class="sr-only">' . $message->type . '</span>';
+                    echo '
+                    </div>';
+}
+?>
                 </div>
             </div>
             <div class="text-center">
+                <a class="btn btn-primary" role="button" href="<?= Utils::get_server_name() . 'admin/'?>"><span class=" glyphicon glyphicon-arrow-left" aria-hidden="true"></span> <?= __('Admin', 'Back to administration') ?></a>
                 <a class="btn btn-info" role="button" href=""><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> <?= __('Check', 'Check again') ?></a>
-                <?php
-                if (!is_file($conf_filename)) {
-                    if ($errors === 0) {
-                ?>
-                    <a class="btn btn-primary" role="button" href="<?= Utils::get_server_name() . 'admin/install.php' ?>"><span class=" glyphicon glyphicon-arrow-right" aria-hidden="true"></span> <?= __('Check', 'Continue the installation') ?></a>
-                <?php
-                    }
-                } else {
-                ?>
-                    <a class="btn btn-primary" role="button" href="<?= Utils::get_server_name() . 'admin/'?>"><span class=" glyphicon glyphicon-arrow-left" aria-hidden="true"></span> <?= __('Admin', 'Back to administration') ?></a>
-                <?php
-                }
-                ?>
+<?php
+if (!is_file($conf_filename)) {
+    if ($errors === 0) {
+?>
+                <a class="btn btn-primary" role="button" href="<?= Utils::get_server_name() . 'admin/install.php' ?>"><span class=" glyphicon glyphicon-arrow-right" aria-hidden="true"></span> <?= __('Check', 'Continue the installation') ?></a>
+<?php
+    }
+}
+?>
             </div>
         </div>
     </div>

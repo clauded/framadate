@@ -24,7 +24,7 @@
                 {* name *}
                 <div class="form-group {$errors['name']['class']}">
                     <label for="yourname" class="col-md-2 control-label">{__('Generic', 'Your name')} *</label>
-                    <div class="col-md-10">
+                    <div class="col-md-8">
     {if $useRemoteUser}
                         <input type="hidden" name="name" value="{$form->admin_name|html}" />{$form->admin_name|html}
     {else}
@@ -47,7 +47,7 @@
                         {__('Generic', 'Your email address')} *<br/>
                         <span class="small">{__('Generic', '(in the format name@mail.com)')}</span>
                     </label>
-                    <div class="col-md-10">
+                    <div class="col-md-8">
         {if $useRemoteUser}
                         <input type="hidden" name="mail" value="{$form->admin_mail|html}">{$form->admin_mail|html}
         {else}
@@ -67,7 +67,7 @@
                 {* poll title *}
                 <div class="form-group {$errors['title']['class']}">
                     <label for="poll_title" class="col-md-2 control-label">{__('Step 1', 'Poll title')} *</label>
-                    <div class="col-md-10">
+                    <div class="col-md-8">
                         <input id="poll_title" type="text" name="title" class="form-control" required {$errors['title']['aria']} value="{$poll_title|html}"/>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                 {* description *}
                 <div class="form-group {$errors['description']['class']}">
                     <label for="poll_comments" class="col-md-2 control-label">{__('Generic', 'Description')}</label>
-                    <div class="col-md-10">
+                    <div class="col-md-8">
                         {include 'part/description_markdown.tpl'}
                         <div>
                             <textarea id="poll_comments" name="description"
@@ -307,10 +307,17 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="text-center">
+                        <a class="btn btn-primary" role="button" href="https://sportentete.qc.ca/framadate/admin/">
+                            <span class=" glyphicon glyphicon-arrow-left" aria-hidden="true"></span> {__('Admin', 'Back to administration')}
+                        </a>
+                        <input type="hidden" name="type" value="$poll_type"/>
+                        <button name="{$goToStep2}" value="{$poll_type}" type="submit" class="btn btn-success"><span class=" glyphicon glyphicon-arrow-right" aria-hidden="true"></span> {__('Step 1', 'Go to step 2')}</button>
+                    </div>
+                </div>
 
                 <p class="text-right">
-                    <input type="hidden" name="type" value="$poll_type"/>
-                    <button name="{$goToStep2}" value="{$poll_type}" type="submit" class="btn btn-success">{__('Step 1', 'Go to step 2')}</button>
                 </p>
                 <script>document.formulaire.title.focus();</script>
             </form>

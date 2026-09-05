@@ -4,9 +4,11 @@
 @media (min-width: 768px) {
 	.container { width: 100%; }
 }
+/*
 header {
 	display: none;
 }
+*/
 body {
     background: #fff;
 }
@@ -30,6 +32,22 @@ main {
 .container .jumbotron .btn-group >.btn {
 	margin-bottom: 0;
 	background: #eee;
+}
+.frama-header {
+    background-color: #725794;
+    padding:10px;
+    margin-top:15px;
+    border-radius:10px;
+}
+.frama-set {
+    color: white;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+.frama-lead {
+    color: white;
+    font-size: 1.0em;
+    font-weight: 600;   
 }
 .h3, h3 {
 	font-size: 18px;
@@ -70,9 +88,10 @@ main {
 	background: #fff8e1;
 	border-color: #ffc107;
 }
-.alert-info {
+.alert-info a:not(.btn), .alert-info a:not(.btn):hover, .alert-info {
     margin-bottom: 20px;
     border-radius: 10px !important;
+    border-color: #d9eff7;
 }
 #tableContainer {
     overflow-x: auto;
@@ -178,7 +197,7 @@ td.hidden-print:hover {
 	padding: 6px 8px 4px;
 	border-radius: 6px;
 }
-.btn-link, .btn-link:hover, .btn-link:focus, .btn-link:active {
+a.btn-link, .btn-link:hover, .btn-link:focus, .btn-link:active {
 	background-color: #ddd;
 }
 .btn-success {
@@ -293,7 +312,6 @@ td.hidden-print:hover {
 #days_container {
 	padding-top: 30px;
 }
-
 .icon-large {
 	font-size: 1.3em;
 }
@@ -301,29 +319,49 @@ input[type=checkbox] {
 	margin: 0 4px;
 }
 #form-block {
-    padding-top:20px;
+    padding-top:0px;
 }
 .form-horizontal {
-    padding-top:20px;
+    padding-top:15px;
 }
 .admin-menu-title {
     font-size: 15px;
     font-weight: 500;
     color: #2f5aae;
 }
+.lead {
+    font-size: 16px !important;
+}
+#selected-days legend input {
+    font-size: 14px;
+}
+legend {
+    margin-bottom: 10px;
+    border-bottom: none;
+}
+.editor-statusbar {
+    padding-bottom: 0;
+}
+.progress {
+    margin: 10px 0;
+    border-radius: 6px;
+}
+.btn-primary,
+.btn-success {
+    border-width: 2px;
+}
+.btn-link-2 {
+    background-color: #ddd;
+}
 
 /* bootstrap-datepicker: Change text sizes inside header, month, and day blocks */
 .datepicker {
-	font-size: 11px !important; /* Increases standard calendar text */
+	font-size: 11px !important;
 }
 .datepicker td,
 .datepicker th {
-	width: 22px !important;  /* Base cell width */
-	height: 22px !important; /* Base cell height */
+	width: 22px !important;
+	height: 22px !important;
 }
-/*
-.datepicker table tfoot tr:first-child {
-	display: none !important;
-}
-*/
+
 /******************************  */

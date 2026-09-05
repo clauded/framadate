@@ -44,10 +44,10 @@
         <input type="hidden" name="csrf" value="{$crsf}"/>
 {if $poll_to_delete}
         <div class="alert alert-warning text-center">
-            <h3>{__('adminstuds', 'Confirm removal of the poll')} "{$poll_to_delete->id|html}"</h3>
+            <h4>{__('adminstuds', 'Confirm removal of the poll')} "{$poll_to_delete->id|html}"</h3>
             <p>
-                <button class="btn btn-default" type="submit" value="1" name="annullesuppression">{__('adminstuds', 'Keep the poll')}</button>
-                <button type="submit" name="delete_confirm" value="{$poll_to_delete->id|html}" class="btn btn-danger">{__('adminstuds', 'Delete the poll')}</button>
+                <button class="btn btn-default" type="submit" value="1" name="annullesuppression"><span class=" glyphicon glyphicon-arrow-left" aria-hidden="true"></span> {__('adminstuds', 'Keep the poll')}</button>
+                <button type="submit" name="delete_confirm" value="{$poll_to_delete->id|html}" class="btn btn-danger"><span class=" glyphicon glyphicon-trash" aria-hidden="true"></span> {__('adminstuds', 'Delete the poll')}</button>
             </p>
         </div>
 {/if}
@@ -105,7 +105,7 @@
                                 </a>
                             </td>
                             <td class="cell-format" align="center">
-                                <button type="submit" name="delete_poll" value="{$poll->id|html}" class="btn btn-link" title="{__('Admin', 'Deleted the poll')}">
+                                <button type="submit" name="delete_poll" value="{$poll->id|html}" class="btn btn-link btn-link-2" title="{__('Admin', 'Deleted the poll')}">
                                 <span class="glyphicon glyphicon-trash text-danger"></span>
                                 <span class="sr-only">{__('Admin', 'Deleted the poll')}</span>
                             </td>
