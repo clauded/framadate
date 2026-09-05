@@ -95,8 +95,8 @@ class InputService {
     }
 
     public function filterComment($comment): ?string {
-        $comment = str_replace("\r\n", "\n", $comment);
-        return $this->returnIfNotBlank((string)$comment);
+        $comment = str_replace("\r\n", "\n", (string)$comment);
+        return $this->returnIfNotBlank($comment);
     }
 
     public function validateDate(DateTime $date, DateTime $minDate, DateTime $maxDate): DateTime {

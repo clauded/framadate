@@ -38,7 +38,7 @@
     <script src="https://framasoft.org/nav/nav.js"></script>
 {/if}
     <div class="container ombre">
-        {include file='header.tpl'}
+        {block name="site_header"}{include file='header.tpl'}{/block}
         {block name=main}{/block}
         </main>
     </div> <!-- .container -->
