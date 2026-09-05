@@ -89,45 +89,20 @@ $(document).ready(function () {
 
     function newDateFields(dateStr) {
         var last_day = $selected_days.find('fieldset').filter(':last');
-        var last_day_title = last_day.find('legend input').attr('title') || '';
+        var last_day_title = last_day.find('legend input').attr('title');
         var new_day_number = getLastDayNumber(last_day) + 1;
-        var previous_day_number = new_day_number - 1;
-
-        var $new_day = last_day.clone(false, false);
-
-        $new_day.find('[id]').each(function () {
-            var id = $(this).attr('id');
-            if (id) {
-                $(this).attr('id', id.replace('d' + previous_day_number + '-h', 'd' + new_day_number + '-h')
-                    .replace('day' + previous_day_number, 'day' + new_day_number));
-            }
-        });
-
-        $new_day.find('label[for]').each(function () {
-            var currentFor = $(this).attr('for');
-            if (currentFor) {
-                $(this).attr('for', currentFor.replace('day' + previous_day_number, 'day' + new_day_number));
-            }
-        });
-
-        $new_day.find('[name]').each(function () {
-            var currentName = $(this).attr('name');
-            if (currentName) {
-                $(this).attr('name', currentName.replace('horaires' + previous_day_number, 'horaires' + new_day_number));
-            }
-        });
-
-        $new_day.find('input').val('');
-        $new_day.find('.hours').attr('title', '');
-
-        var titlePrefix = last_day_title.substring(0, last_day_title.indexOf(' '));
-        if (titlePrefix === '') {
-            titlePrefix = last_day_title;
-        }
-        $new_day.find('legend input').attr('title', titlePrefix + ' ' + (new_day_number + 1));
-
-        last_day.after($new_day);
-        last_day.next().find('legend input').val(dateStr);
+        var re_id_hours = new RegExp('"d' + (new_day_number - 1) + '-h', 'g');
+        var re_name_hours = new RegExp('name="horaires' + (new_day_number - 1), 'g');
+        var new_day_html = last_day.html().replace(re_id_hours, '"d' + new_day_number + '-h')
+            .replace('id="day' + (new_day_number - 1) + '"', 'id="day' + new_day_number + '"')
+            .replace('for="day' + (new_day_number - 1) + '"', 'for="day' + new_day_number + '"')
+            .replace(re_name_hours, 'name="horaires' + new_day_number)
+            .replace(/value="(.*?)"/g, 'value=""')
+            .replace(/hours" title="(.*?)"/g, 'hours" title="" p')
+            .replace('title="' + last_day_title + '"', 'title="' + last_day_title.substring(0, last_day_title.indexOf(' ')) + ' ' + (new_day_number + 1) + '"');
+        last_day
+            .after('<fieldset>' + new_day_html + '</fieldset>')
+            .next().find('legend input').val(dateStr);
         $('#day' + (new_day_number)).focus();
         updateButtonState();
     }
