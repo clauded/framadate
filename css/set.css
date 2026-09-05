@@ -144,6 +144,7 @@ table.results .bg-primary.month,
 table.results .day {
 	text-align: center !important;
 	background: none;
+	color: black;
 	border: 1px solid white;
 	border-radius: 6px;
 }
