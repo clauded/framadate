@@ -222,9 +222,9 @@ class AdminPollService {
 
             // Update found slot
             $moments[] = $new_moment;
-            $this->slotRepository->update($poll_id, $datetime, implode(',', $moments));
+            $this->slotRepository->update($poll_id, (string)$datetime, implode(',', $moments));
         } else {
-            $this->slotRepository->insert($poll_id, $datetime, $new_moment);
+            $this->slotRepository->insert($poll_id, (string)$datetime, $new_moment);
         }
 
         $this->voteRepository->insertDefault($poll_id, $result->insert);
@@ -290,7 +290,7 @@ class AdminPollService {
         // Search where to insert new column
         foreach ($slots as $k=>$slot) {
             $rowDatetime = (int) $slot->title;
-            $moments = explode(',', $slot->moments);
+            $moments = explode(',', (string)$slot->moments);
 
             if ($datetime === $rowDatetime) {
                 // Here we have to insert at the end of a slot
