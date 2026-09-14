@@ -62,6 +62,16 @@
     {else}
         {include 'part/vote_table_classic.tpl' active=$poll->active}
     {/if}
+    {if $admin}
+        <div class="row">
+            <div class="text-center">
+                <a class="btn btn-primary" role="button" href="{'admin'|resource}">
+                    <span class=" glyphicon glyphicon-arrow-left" aria-hidden="true"></span> {__('Admin', 'Back to administration')}
+                </a>
+            </div>
+        </div>
+    {/if}
+
 {/if}
 
 {/block}
