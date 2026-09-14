@@ -2,7 +2,7 @@
 
 {block name=main}
 <form action="{poll_url id=$admin_poll_id admin=true}" method="POST">
-    <input type="hidden" name="csrf" value="{$crsf}">
+    <input type="hidden" name="csrf" value="{$csrf}">
     <div class="alert alert-danger text-center">
         <h4>{__('adminstuds', 'Confirm removal of the poll')}</h4>
         <p>

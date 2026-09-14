@@ -32,28 +32,24 @@ use Framadate\Services\MailService;
 use Framadate\Services\NotificationService;
 use Framadate\Services\PollService;
 use Framadate\Services\SessionService;
+use Framadate\Services\SecurityService;
 use Framadate\Utils;
 
 include_once __DIR__ . '/app/inc/init.php';
 
-/* Variables */
-/* --------- */
-
+// Variables
 $admin_poll_id = null;
 $poll_id = null;
 $poll = null;
 $message = null;
 $editingVoteId = 0;
 
-/* Globals */
-/* ------- */
+// Globals
 global $smarty;
 global $connect;
 global $config;
 
-/* Services */
-/*----------*/
-
+// Services
 $logService = new LogService();
 $pollService = new PollService($logService);
 $adminPollService = new AdminPollService($connect, $pollService, $logService);
@@ -61,10 +57,9 @@ $inputService = new InputService();
 $mailService = new MailService($config['use_smtp'], $config['smtp_options']);
 $notificationService = new NotificationService($mailService);
 $sessionService = new SessionService();
+$securityService = new SecurityService();
 
-/* PAGE */
-/* ---- */
-
+// PAGE
 if (!empty($_GET['poll'])) {
     $admin_poll_id = filter_input(INPUT_GET, 'poll', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
     if ($admin_poll_id && strlen($admin_poll_id) === 24) {
@@ -323,7 +318,7 @@ if (isset($_POST['remove_all_votes'])) {
     $smarty->assign('poll_id', $poll_id);
     $smarty->assign('admin_poll_id', $admin_poll_id);
     $smarty->assign('title', __('Generic', 'Poll') . ' - ' . $poll->title);
-    $smarty->assign('crsf', $securityService->getToken('admin'));
+    $smarty->assign('csrf', $securityService->getToken('admin'));
     $smarty->display('confirm/delete_votes.tpl');
     exit;
 }
@@ -357,7 +352,7 @@ if (isset($_POST['remove_all_comments'])) {
     $smarty->assign('poll_id', $poll_id);
     $smarty->assign('admin_poll_id', $admin_poll_id);
     $smarty->assign('title', __('Generic', 'Poll') . ' - ' . $poll->title);
-    $smarty->assign('crsf', $securityService->getToken('admin'));
+    $smarty->assign('csrf', $securityService->getToken('admin'));
     $smarty->display('confirm/delete_comments.tpl');
     exit;
 }
@@ -377,7 +372,7 @@ if (isset($_POST['delete_poll'])) {
     $smarty->assign('poll_id', $poll_id);
     $smarty->assign('admin_poll_id', $admin_poll_id);
     $smarty->assign('title', __('Generic', 'Poll') . ' - ' . $poll->title);
-    $smarty->assign('crsf', $securityService->getToken('admin'));
+    $smarty->assign('csrf', $securityService->getToken('admin'));
     $smarty->display('confirm/delete_poll.tpl');
     exit;
 }
@@ -434,7 +429,7 @@ function exit_displaying_add_column($message = null) {
     $smarty->assign('format', $poll->format);
     $smarty->assign('title', __('Generic', 'Poll') . ' - ' . $poll->title);
     $smarty->assign('message', $message);
-    $smarty->assign('crsf', $securityService->getToken('admin'));
+    $smarty->assign('csrf', $securityService->getToken('admin'));
     $smarty->display('add_column.tpl');
     exit;
 }

@@ -30,6 +30,7 @@ $smarty->registerPlugin(\Smarty::PLUGIN_MODIFIER, 'constant', 'constant');
 $smarty->registerPlugin(\Smarty::PLUGIN_MODIFIER, 'max', 'max');
 $smarty->registerPlugin(\Smarty::PLUGIN_MODIFIER, 'preg_match', 'preg_match');
 $smarty->registerPlugin(\Smarty::PLUGIN_MODIFIER, 'strtotime', 'strtotime');
+$smarty->registerPlugin(\Smarty::PLUGIN_MODIFIER, 'date', 'date');
 $smarty->registerPlugin(\Smarty::PLUGIN_MODIFIER, 'count', 'count');
 $smarty->setTemplateDir(ROOT_DIR . '/tpl/');
 $smarty->setCompileDir(ROOT_DIR . COMPILE_DIR);

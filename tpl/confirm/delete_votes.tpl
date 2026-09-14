@@ -2,7 +2,7 @@
 
 {block name=main}
     <form action="{poll_url id=$admin_poll_id admin=true}" method="POST">
-        <input type="hidden" name="csrf" value="{$crsf}">
+        <input type="hidden" name="csrf" value="{$csrf}">
         <div class="alert alert-danger text-center">
             <h2>{__('adminstuds', 'Confirm removal of all votes of the poll')}</h2>
             <p><button class="btn btn-default" type="submit" name="cancel">{__('adminstuds', 'Keep votes')}</button>
