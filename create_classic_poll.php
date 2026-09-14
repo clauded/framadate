@@ -198,7 +198,7 @@ if (isset($_POST['confirmation'])) {
                             <div class="col-sm-2 control-label">
                                 <div class="btn-group btn-group">
                                     <button type="button" id="remove-a-choice" class="btn btn-default" title="' . __('Step 2 classic', 'Remove a choice') . '"><span class="glyphicon glyphicon-minus text-info"></span><span class="sr-only">' . __('Generic', 'Remove') . '</span></button>
-                                    <button type="button" id="add-a-choice" class="btn btn-default disabled" title="' . __('Step 2 classic', 'Add a choice') . '"><span class="glyphicon glyphicon-plus text-success"></span><span class="sr-only">' . __('Generic', 'Add') . '</span></button>
+                                    <button type="button" id="add-a-choice" class="btn btn-default" title="' . __('Step 2 classic', 'Add a choice') . '"><span class="glyphicon glyphicon-plus text-success"></span><span class="sr-only">' . __('Generic', 'Add') . '</span></button>
                                 </div>
                             </div>
                         </div>
@@ -246,6 +246,7 @@ if (isset($_POST['confirmation'])) {
     </div> <!-- id-form-block -->   
     
     <script src="js/app/framadatepicker.js"></script>
+    <script src="js/app/classic_poll.js">
     <script src="js/app/create_poll.js"></script>
     ' . "\n";
 

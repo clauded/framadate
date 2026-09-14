@@ -323,10 +323,11 @@ if (isset($_POST['remove_all_votes'])) {
     $smarty->assign('poll_id', $poll_id);
     $smarty->assign('admin_poll_id', $admin_poll_id);
     $smarty->assign('title', __('Generic', 'Poll') . ' - ' . $poll->title);
+    $smarty->assign('crsf', $securityService->getToken('admin'));
     $smarty->display('confirm/delete_votes.tpl');
     exit;
 }
-if (isset($_POST['confirm_remove_all_votes'])) {
+if (isset($_POST['confirm_remove_all_votes']) && $securityService->checkCsrf('admin', $_POST['csrf'] ?? '')) {
     if ($adminPollService->cleanVotes($poll_id)) {
         $message = new Message('success', __('adminstuds', 'All votes deleted'));
     } else {
@@ -356,10 +357,11 @@ if (isset($_POST['remove_all_comments'])) {
     $smarty->assign('poll_id', $poll_id);
     $smarty->assign('admin_poll_id', $admin_poll_id);
     $smarty->assign('title', __('Generic', 'Poll') . ' - ' . $poll->title);
+    $smarty->assign('crsf', $securityService->getToken('admin'));
     $smarty->display('confirm/delete_comments.tpl');
     exit;
 }
-if (isset($_POST['confirm_remove_all_comments'])) {
+if (isset($_POST['confirm_remove_all_comments']) && $securityService->checkCsrf('admin', $_POST['csrf'] ?? '')) {
     if ($adminPollService->cleanComments($poll_id)) {
         $message = new Message('success', __('adminstuds', 'All comments deleted'));
     } else {
@@ -375,10 +377,11 @@ if (isset($_POST['delete_poll'])) {
     $smarty->assign('poll_id', $poll_id);
     $smarty->assign('admin_poll_id', $admin_poll_id);
     $smarty->assign('title', __('Generic', 'Poll') . ' - ' . $poll->title);
+    $smarty->assign('crsf', $securityService->getToken('admin'));
     $smarty->display('confirm/delete_poll.tpl');
     exit;
 }
-if (isset($_POST['confirm_delete_poll'])) {
+if (isset($_POST['confirm_delete_poll']) && $securityService->checkCsrf('admin', $_POST['csrf'] ?? '')) {
     if ($adminPollService->deleteEntirePoll($poll_id)) {
         $message = new Message('success', __('adminstuds', 'Poll fully deleted'));
         $notificationService->sendUpdateNotification($poll, NotificationService::DELETED_POLL);
@@ -425,12 +428,13 @@ if (isset($_GET['delete_column'])) {
 // -------------------------------
 
 function exit_displaying_add_column($message = null) {
-    global $smarty, $poll_id, $admin_poll_id, $poll;
+    global $smarty, $poll_id, $admin_poll_id, $poll, $securityService;
     $smarty->assign('poll_id', $poll_id);
     $smarty->assign('admin_poll_id', $admin_poll_id);
     $smarty->assign('format', $poll->format);
     $smarty->assign('title', __('Generic', 'Poll') . ' - ' . $poll->title);
     $smarty->assign('message', $message);
+    $smarty->assign('crsf', $securityService->getToken('admin'));
     $smarty->display('add_column.tpl');
     exit;
 }
@@ -440,6 +444,9 @@ if (isset($_GET['add_column'])) {
 }
 
 if (isset($_POST['confirm_add_column'])) {
+    if (!$securityService->checkCsrf('admin', $_POST['csrf'] ?? '')) {
+        exit_displaying_add_column(new Message('danger', __('Error', 'Something is going wrong...')));
+    }
     try {
         if (($poll->format === 'D' && empty($_POST['newdate']))
          || ($poll->format === 'A' && empty($_POST['choice']))) {

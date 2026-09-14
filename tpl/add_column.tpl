@@ -12,6 +12,7 @@
 
 {block name=main}
     <form action="{poll_url id=$admin_poll_id admin=true}" method="POST">
+        <input type="hidden" name="csrf" value="{$crsf}">
         <div class="alert alert-info text-center col-md-12">
             <div class="col-md-2">
                 <b>{__('adminstuds', 'Column\'s adding')}</b>

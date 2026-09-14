@@ -309,7 +309,7 @@
                 </div>
                 <div class="row">
                     <div class="text-center">
-                        <a class="btn btn-primary" role="button" href="https://sportentete.qc.ca/framadate/admin/">
+                        <a class="btn btn-primary" role="button" href="{'admin'|resource}">
                             <span class=" glyphicon glyphicon-arrow-left" aria-hidden="true"></span> {__('Admin', 'Back to administration')}
                         </a>
                         <input type="hidden" name="type" value="$poll_type"/>
