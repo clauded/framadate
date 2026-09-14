@@ -11,13 +11,13 @@
                 <!-- Première colonne -->
                 <td class="align-top" style="border: none; padding: 15px; width: max-content; white-space: nowrap;">
                     <div class="mb-3">
+                        <a href="./polls.php"><h2 class="admin-menu-title">{__('Admin', 'Polls')}</h2></a>
+                    </div>
+                    <div class="mb-3">
                         <a href="../create_poll.php?type=autre"><h2 class="admin-menu-title">{__('Homepage', 'Make a classic poll')}</h2></a>
                     </div>
                     <div class="mb-3">
                         <a href="../create_poll.php?type=date"><h2 class="admin-menu-title">{__('Homepage', 'Schedule an event')}</h2></a>
-                    </div>
-                    <div class="mb-3">
-                        <a href="./polls.php"><h2 class="admin-menu-title">{__('Admin', 'Polls')}</h2></a>
                     </div>
                 </td>
 

@@ -460,5 +460,9 @@
       "The poll is expired, it will be deleted soon.": "The poll has expired, it will soon be deleted.",
       "Update vote succeeded": "Vote updated",
       "Your vote has been registered successfully, but be careful: regarding this poll options, you need to keep this personal link to edit your own vote:": "Your vote has been saved, but please note: you need to keep this personalised link to be able to edit your vote."
+   },
+   "wordpress": {
+      "403 Forbidden": "403 Forbidden",
+      "Direct access is not permitted or your session has expired (try refreshing the page).": "Direct access is not permitted or your session has expired (try refreshing the page)."
    }
 }

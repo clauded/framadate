@@ -29,8 +29,7 @@ use Framadate\Utils;
 
 include_once __DIR__ . '/app/inc/init.php';
 
-/* Service */
-/*---------*/
+// Service */
 $logService = new LogService();
 $pollService = new PollService($logService);
 $mailService = new MailService($config['use_smtp'], $config['smtp_options']);
@@ -46,7 +45,7 @@ if (is_file('bandeaux_local.php')) {
 
 $form = unserialize($_SESSION['form'], ['allowed_classes' => [Form::class, Choice::class]]);
 
-// Step 1/4 : error if $_SESSION from info_sondage are not valid
+// If $_SESSION from info_sondage are not valid, error
 if (empty($form->title) || empty($form->admin_name) || ($config['use_smtp'] && empty($form->admin_mail))) {
     $smarty->assign('title', __('Error', 'Error!'));
     $smarty->assign('error', __('Error', 'You haven\'t filled the first section of the poll creation.'));
@@ -63,7 +62,7 @@ if (isset($form->format) && $form->format !== 'A') {
     $form->clearChoices();
 }
 
-// Step 4 : Data prepare before insert in DB
+// Data prepare before insert in DB
 if (isset($_POST['confirmation'])) {
     // Define expiration date
     $expiration_date = $inputService->parseDate($_POST['enddate']);
@@ -96,14 +95,14 @@ if (isset($_POST['confirmation'])) {
     // Delete old polls
     $purgeService->purgeOldPolls();
 
-    // creation message
+    // Creation message
     $sessionService->set("Framadate", "messagePollCreated", TRUE);
 
     // Redirect to poll administration
     header('Location:' . Utils::getUrlSondage($admin_poll_id, true));
     exit;
-} // Step 3/4 : Confirm poll creation and choose a removal date
-else if (isset($_POST['fin_sondage_autre'])) {
+} else if (isset($_POST['fin_sondage_autre'])) {
+    // Confirm poll creation and choose a removal date
     // Store choices in $_SESSION
     if (isset($_POST['choices'])) {
         $form->clearChoices();
@@ -247,7 +246,7 @@ else if (isset($_POST['fin_sondage_autre'])) {
     </div> <!-- id-form-block -->   
     
     <script src="js/app/framadatepicker.js"></script>
-    <script src="js/app/create_poll.js""></script>
+    <script src="js/app/create_poll.js"></script>
     ' . "\n";
 
     bandeau_pied();

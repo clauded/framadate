@@ -18,6 +18,7 @@ declare(strict_types=1);
  * Auteurs de Framadate/OpenSondage : Framasoft (https://github.com/framasoft)
  */
 
+require_once '../app/inc/wordpress.php';
 require_once '../app/inc/init.php';
 
 $smarty->assign('title', __('Admin', 'Administration'));

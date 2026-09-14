@@ -35,16 +35,13 @@ use Framadate\Services\SecurityService;
 use Framadate\Services\SessionService;
 use Framadate\Utils;
 
+include_once __DIR__ . '/app/inc/wordpress.php';
 include_once __DIR__ . '/app/inc/init.php';
 
-/* Constantes */
-/* ---------- */
-
+// Constantes
 const USER_REMEMBER_VOTES_KEY = 'UserVotes';
 
-/* Variables */
-/* --------- */
-
+// Variables
 $poll_id = null;
 $poll = null;
 $message = null;
@@ -57,9 +54,7 @@ $comments = [];
 $selectedNewVotes = [];
 $admin_poll_id = null;
 
-/* Services */
-/*----------*/
-
+// Services
 $logService = new LogService();
 $pollService = new PollService($logService);
 $inputService = new InputService();
@@ -70,9 +65,7 @@ $sessionService = new SessionService();
 $icalService = new ICalService();
 $adminPollService = new AdminPollService($connect, $pollService, $logService);
 
-/* PAGE */
-/* ---- */
-
+// Page
 if (!empty($_GET['poll'])) {
     $poll_id = filter_input(INPUT_GET, 'poll', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
     $poll = $poll_id ? $pollService->findById($poll_id) : null;
@@ -86,10 +79,7 @@ if (!$poll) {
 
 $editedVoteUniqueId = $sessionService->get(USER_REMEMBER_VOTES_KEY, $poll_id, '');
 
-// -------------------------------
 // Password verification
-// -------------------------------
-
 if (!is_null($poll->password_hash)) {
     // If we came from password submission
     $password = $_POST['password'] ?? null;
@@ -113,18 +103,13 @@ if (!is_null($poll->password_hash)) {
 
 // We allow actions only if access is granted
 if ($accessGranted) {
-    // -------------------------------
+    
     // A vote is going to be edited
-    // -------------------------------
-
     if (!empty($_GET['vote'])) {
         $editingVoteId = filter_input(INPUT_GET, 'vote', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => POLL_REGEX]]);
     }
 
-    // -------------------------------
     // Something to save (edit or add)
-    // -------------------------------
-
     if (!empty($_POST['save'])) { // Save edition of an old vote
         $name = $inputService->filterName($_POST['name']);
         $editedVote = filter_input(INPUT_POST, 'save', FILTER_VALIDATE_INT);
@@ -163,6 +148,7 @@ if ($accessGranted) {
                 $message = new Message('danger', __('Error', 'Make at least a choice.'));
             }
         }
+        
     } elseif (isset($_POST['save'])) { // Add a new vote
         $name = $inputService->filterName($_POST['name']);
         $choices = $inputService->filterArray($_POST['choices'], FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => CHOICE_REGEX]]);
@@ -204,9 +190,7 @@ if ($accessGranted) {
         }
     }
 
-    // -------------------------------
-    // Delete a votes
-    // -------------------------------
+    // Delete a vote
     if (!empty($_GET['delete_vote'])) {
         $vote_id = filter_input(INPUT_GET, 'delete_vote', FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => BASE64_REGEX]]);
         $vote_id = $vote_id ? (int) Utils::base64url_decode($vote_id) : null;
@@ -241,9 +225,7 @@ function getMessageForOwnVoteEditableVote(SessionService &$sessionService, Smart
     return $message;
 }
 
-// -------------------------------
 // Get iCal file
-// -------------------------------
 if (isset($_GET['get_ical_file'])) {
     $dayAndTime = (string)filter_input(INPUT_GET, 'get_ical_file');
     $dayAndTime = Utils::base64url_decode($dayAndTime);
