@@ -126,9 +126,23 @@ function framadate_wordpress_deny(): void
 {
     header('HTTP/1.1 403 Forbidden');
     header('Content-Type: text/html; charset=UTF-8');
-    echo '<h1>403 Accès refusé</h1>';
-    echo '<p>Accès direct non autorisé ou votre session est expirée. '
-       . '<a href="#" onclick="window.parent.location.reload(); return false;">'
-       . 'Cliquez ici pour recharger la page</a>.</p>';
+
+    // Use the application's translations when they are available. This runs in
+    // a security path, and __() can throw (CantLoadDictionaryException) if the
+    // dictionary cannot be loaded, so fall back to English rather than let an
+    // uncaught exception replace the 403 with a stack trace.
+    $title = '403 Forbidden';
+    $body = 'Direct access is not permitted or your session has expired (try refreshing the page).';
+    if (function_exists('__')) {
+        try {
+            $title = __('wordpress', '403 Forbidden');
+            $body = __('wordpress', 'Direct access is not permitted or your session has expired (try refreshing the page).');
+        } catch (\Throwable $e) {
+            // Keep the English defaults.
+        }
+    }
+
+    echo '<h1>' . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '</h1>';
+    echo '<p>' . htmlspecialchars($body, ENT_QUOTES, 'UTF-8') . '</p>';
     exit;
 }
