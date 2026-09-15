@@ -76,6 +76,15 @@ const MAX_SLOTS_PER_POLL = 366;
 // Number of seconds before we allow to resend an "Remember Edit Link" email.
 const TIME_EDIT_LINK_EMAIL = 60;
 
+// Restrict access to requests coming from the WordPress site (iframe embedding).
+// Set to true only if Framadate is embedded in WordPress and the matching
+// handshake cookie is issued there; see app/inc/wordpress.php.
+const WP_IFRAME_CHECK = false;
+
+// Shared secret for the WordPress iframe handshake. MUST match the WordPress
+// side, and MUST stay in this file only (config.php is not tracked in git).
+const WP_IFRAME_SECRET = '';
+
 // Config
 $config = [
     /* general config */

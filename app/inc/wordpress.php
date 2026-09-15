@@ -18,60 +18,117 @@ declare(strict_types=1);
  * Auteurs de Framadate/OpenSondage : Framasoft (https://github.com/framasoft)
  */
 
-$checkWP = true;
+/**
+ * Restricts access to requests coming from within the WordPress site, by way of
+ * a short-lived HMAC-signed handshake cookie set by WordPress, which is then
+ * upgraded to a normal PHP session for subsequent navigation.
+ *
+ * Configuration (in app/inc/config.php, which is NOT tracked in git):
+ *   const WP_IFRAME_CHECK  = true;        // enable/disable the gate
+ *   const WP_IFRAME_SECRET = '<secret>';  // must match the WordPress side
+ *
+ * The secret MUST live in config.php (or the environment) and never in this
+ * file, because this file is tracked in git. Anyone who can read the secret can
+ * forge a valid handshake cookie and bypass the gate entirely.
+ */
+function framadate_wordpress_gate(): void
+{
+    // Never gate CLI usage (migrations, cron, tooling).
+    if (PHP_SAPI === 'cli') {
+        return;
+    }
 
-// check if the page was called from within wordpress
-if ($checkWP) {
-	// Always start the PHP session before outputting anything
-	if (session_status() === PHP_SESSION_NONE) {
-		session_set_cookie_params([
-			'lifetime' => 0,
-			'path'     => '/',
-			'samesite' => 'Lax',
-			'secure'   => true,
-			'httponly' => true,
-		]);
-		session_start();
-	}
+    // Disabled unless explicitly turned on in config.
+    if (!defined('WP_IFRAME_CHECK') || WP_IFRAME_CHECK !== true) {
+        return;
+    }
 
-	$isAuthorized = false;
-	$secretKey = 'z[NYHyJKHZd-r\mzPtCJe!,O'; // Must match WordPress secret key
+    // Some entry points must stay reachable regardless, otherwise the site can
+    // become impossible to install, migrate or recover.
+    $script = basename($_SERVER['SCRIPT_NAME'] ?? '');
+    $always_allowed = ['install.php', 'migration.php', 'maintenance.php'];
+    if (in_array($script, $always_allowed, true)) {
+        return;
+    }
 
-	// 1. Internal Link Navigation Check (Active Session)
-	if (!empty($_SESSION['iframe_authorized']) && $_SESSION['iframe_authorized'] === true) {
-		$isAuthorized = true;
-	}
-	// 2. Initial Handshake Check (WordPress Cookie)
-	elseif (!empty($_COOKIE['wp_iframe_auth'])) {
-		$parts = explode('.', $_COOKIE['wp_iframe_auth']);
-		
-		if (count($parts) === 2) {
-			$expiry = (string) $parts[0];
-			$receivedSignature = $parts[1];
-			
-			// Verify HMAC signature & expiration
-			$expectedSignature = hash_hmac('sha256', $expiry, $secretKey);
+    // Without a configured secret the check cannot be performed. Fail closed:
+    // an unconfigured gate that silently allowed everything would give a false
+    // sense of protection.
+    if (!defined('WP_IFRAME_SECRET') || WP_IFRAME_SECRET === '') {
+        framadate_wordpress_deny();
+    }
 
-			if (hash_equals($expectedSignature, $receivedSignature) && time() <= $expiry) {
-				$isAuthorized = true;
-				$_SESSION['iframe_authorized'] = true; // Upgrade to full session
+    $secure = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
 
-				// Clear the validation cookie immediately so it cannot be reused
-				setcookie('wp_iframe_auth', '', time() - 3600, '/');
-			}
-		}
-	}
+    if (session_status() === PHP_SESSION_NONE) {
+        session_set_cookie_params([
+            'lifetime' => 0,
+            'path'     => '/',
+            'samesite' => 'Lax',
+            // Only force the Secure flag when actually served over HTTPS,
+            // otherwise the session cookie is silently dropped on plain HTTP
+            // and every request would look unauthenticated.
+            'secure'   => $secure,
+            'httponly' => true,
+        ]);
+        session_start();
+    }
 
-	// Block access if both checks fail
-	if (!$isAuthorized) {
-		header('HTTP/1.1 403 Forbidden');
-		echo '<h1>403 Accès refusé</h1>';
-		echo '<p>Accès direct non autorisé ou votre session est expirée. <a href="#" onclick="window.parent.location.reload(); return false;">Cliquez ici pour recharger la page</a>.</p>';
-		exit;
-	}
-	
-	// Security headers
-	header("Content-Security-Policy: frame-ancestors 'self'");
-	header("X-Frame-Options: SAMEORIGIN");
+    // 1. Already-established session (internal link navigation).
+    if (!empty($_SESSION['iframe_authorized'])) {
+        framadate_wordpress_headers();
+        return;
+    }
 
+    // 2. Initial handshake via the signed cookie set by WordPress.
+    if (!empty($_COOKIE['wp_iframe_auth'])) {
+        $parts = explode('.', (string) $_COOKIE['wp_iframe_auth']);
+
+        if (count($parts) === 2) {
+            [$expiry, $receivedSignature] = $parts;
+
+            $expectedSignature = hash_hmac('sha256', $expiry, WP_IFRAME_SECRET);
+
+            if (hash_equals($expectedSignature, $receivedSignature)
+                && ctype_digit($expiry)
+                && time() <= (int) $expiry
+            ) {
+                // Upgrade to a full session, rotating the session id so the
+                // handshake cannot be used to fixate a known session.
+                session_regenerate_id(true);
+                $_SESSION['iframe_authorized'] = true;
+
+                // Clear the handshake cookie so it cannot be replayed.
+                setcookie('wp_iframe_auth', '', [
+                    'expires'  => time() - 3600,
+                    'path'     => '/',
+                    'samesite' => 'Lax',
+                    'secure'   => $secure,
+                    'httponly' => true,
+                ]);
+
+                framadate_wordpress_headers();
+                return;
+            }
+        }
+    }
+
+    framadate_wordpress_deny();
+}
+
+function framadate_wordpress_headers(): void
+{
+    header("Content-Security-Policy: frame-ancestors 'self'");
+    header('X-Frame-Options: SAMEORIGIN');
+}
+
+function framadate_wordpress_deny(): void
+{
+    header('HTTP/1.1 403 Forbidden');
+    header('Content-Type: text/html; charset=UTF-8');
+    echo '<h1>403 Accès refusé</h1>';
+    echo '<p>Accès direct non autorisé ou votre session est expirée. '
+       . '<a href="#" onclick="window.parent.location.reload(); return false;">'
+       . 'Cliquez ici pour recharger la page</a>.</p>';
+    exit;
 }

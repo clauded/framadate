@@ -63,5 +63,11 @@ if (is_file(CONF_FILENAME)) {
 }
 
 require_once __DIR__ . '/i18n.php';
+// WordPress iframe gate. Loaded after config.php (which holds the secret) and
+// before anything can produce output. Covers every entry point, since they all
+// go through this file; see app/inc/wordpress.php for configuration.
+require_once __DIR__ . '/wordpress.php';
+framadate_wordpress_gate();
+
 // Smarty
 require_once __DIR__ . '/smarty.php';

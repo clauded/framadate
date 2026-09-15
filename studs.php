@@ -35,7 +35,6 @@ use Framadate\Services\SecurityService;
 use Framadate\Services\SessionService;
 use Framadate\Utils;
 
-include_once __DIR__ . '/app/inc/wordpress.php';
 include_once __DIR__ . '/app/inc/init.php';
 
 // Constantes
